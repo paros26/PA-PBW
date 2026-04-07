@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri - Jetski Mahakam</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <span>Jetski Mahakam</span>
+            </a>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Beranda</a>
+                <a href="about.html" class="nav-link">Tentang Kami</a>
+                <a href="catalog.html" class="nav-link">Katalog</a>
+                <a href="gallery.html" class="nav-link active">Galeri</a>
+                <a href="login.html" class="btn-outline">Admin Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">Galeri & Dokumentasi</h1>
+                <p class="page-subtitle">Lihat momen-momen seru dan pengalaman pelanggan kami</p>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Gallery items will be dynamically loaded here -->
+            </div>
+
+            <!-- Info Section -->
+            <div class="card stats-card">
+                <h2 class="section-title">Pengalaman Pelanggan Kami</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <p>Pelanggan Puas</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <p>Unit Jet Ski Premium</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <p>Tingkat Keamanan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        <span>Jetski Mahakam</span>
+                    </div>
+                    <p>Penyedia jasa penyewaan jet ski terbaik di Sungai Mahakam, Kalimantan Timur.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Navigasi</h3>
+                    <a href="index.html">Beranda</a>
+                    <a href="about.html">Tentang Kami</a>
+                    <a href="catalog.html">Katalog</a>
+                    <a href="gallery.html">Galeri</a>
+                </div>
+
+                <div class="footer-col">
+                    <h3>Kontak</h3>
+                    <p>Jl. Tepi Sungai Mahakam No. 123</p>
+                    <p>Samarinda, Kalimantan Timur</p>
+                    <p>Telepon: +62 812-3456-7890</p>
+                    <p>Email: info@jetskimahakam.com</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Jetski Mahakam. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script src="gallery.js"></script>
+</body>
+</html>
