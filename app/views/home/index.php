@@ -1,42 +1,72 @@
     <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        
         <div class="hero-content">
-            <h1>Jetski Mahakam</h1>
-            <p class="hero-subtitle">Nikmati Pengalaman Petualangan Air yang Tak Terlupakan di Sungai Mahakam</p>
+            <span class="hero-tagline">Premium Jet Ski Experience</span>
+            <h1>Jelajahi Mahakam <br><span class="text-gradient">Tanpa Batas</span></h1>
+            <p class="hero-subtitle">Rasakan sensasi kecepatan dan adrenalin di atas sungai terbesar Kalimantan dengan armada jet ski premium kami.</p>
             <div class="hero-buttons">
-                <a href="<?= BASEURL; ?>/catalog" class="btn btn-primary">Lihat Katalog</a>
-                <a href="<?= BASEURL; ?>/about" class="btn btn-outline-white">Tentang Kami</a>
+                <a href="<?= BASEURL; ?>/catalog" class="btn btn-primary btn-lg">Sewa Sekarang</a>
+                <a href="<?= BASEURL; ?>/about" class="btn btn-outline btn-lg">Pelajari Lebih Lanjut</a>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrows">
+                <span></span>
+                <span></span>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
+    <section class="features" id="features">
         <div class="container">
-            <h2 class="section-title">Mengapa Memilih Kami?</h2>
+            <div class="section-header">
+                <h2 class="section-title">Keunggulan <span class="text-primary">Mahakam JetSki</span></h2>
+                <div class="section-divider"></div>
+                <p class="section-subtitle">Kami berkomitmen memberikan pengalaman terbaik bagi setiap pelanggan kami.</p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">🌊</div>
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">🌊</span>
+                    </div>
                     <h3>Armada Modern</h3>
-                    <p>Jet ski terbaru dengan perawatan terbaik</p>
+                    <p>Unit jet ski keluaran terbaru dengan performa mesin yang selalu terjaga prima.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Keamanan Terjamin</h3>
-                    <p>Dilengkapi pelampung dan instruktur berpengalaman</p>
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">🛡️</span>
+                    </div>
+                    <h3>Keamanan Utama</h3>
+                    <p>Prosedur keamanan ketat, pelampung standar internasional, dan instruktur siaga.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">⏰</div>
-                    <h3>Harga Terjangkau</h3>
-                    <p>Sistem sewa per jam dengan harga kompetitif</p>
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">⏰</span>
+                    </div>
+                    <h3>Sewa Fleksibel</h3>
+                    <p>Pilihan durasi sewa yang fleksibel mulai dari 1 jam dengan proses booking instan.</p>
                 </div>
 
                 <div class="feature-card">
-                    <div class="feature-icon">⭐</div>
-                    <h3>Pelayanan Prima</h3>
-                    <p>Layanan pelanggan ramah dan profesional</p>
+                    <div class="feature-icon-wrapper">
+                        <span class="feature-icon">⭐</span>
+                    </div>
+                    <h3>Lokasi Strategis</h3>
+                    <p>Akses mudah di tepian Mahakam dengan fasilitas ruang tunggu yang nyaman.</p>
                 </div>
             </div>
         </div>
@@ -44,12 +74,14 @@
 
     <!-- CTA Section -->
     <section class="cta">
-        <div class="container">
-            <h2>Siap Untuk Petualangan?</h2>
-            <p class="cta-subtitle">Hubungi kami sekarang untuk reservasi dan informasi lebih lanjut</p>
-            <div class="cta-buttons">
-                <a href="<?= BASEURL; ?>/catalog" class="btn btn-outline-white">Lihat Unit Tersedia</a>
-                <a href="<?= BASEURL; ?>/gallery" class="btn btn-outline-white">Lihat Dokumentasi</a>
+        <div class="cta-content container">
+            <div class="cta-text">
+                <h2>Siap Mengacu <span class="text-primary">Adrenalin?</span></h2>
+                <p>Bergabunglah dengan ratusan pelanggan yang telah merasakan serunya menjelajahi Mahakam bersama kami.</p>
+            </div>
+            <div class="cta-actions">
+                <a href="<?= BASEURL; ?>/catalog" class="btn btn-primary btn-lg">Pesan Unit Sekarang</a>
+                <a href="https://wa.me/628123456789" class="btn btn-outline btn-lg">Konsultasi Admin</a>
             </div>
         </div>
     </section>

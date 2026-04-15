@@ -30,6 +30,32 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+// Navbar smart scroll (hide on scroll down, show on scroll up)
+let lastScrollTop = 0;
+const navbar = document.querySelector('.navbar');
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Add scrolled class for glassmorphism background
+    if (scrollTop > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+
+    // Hide/Show logic
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scrolling down
+        navbar.style.transform = 'translateY(-100%)';
+    } else {
+        // Scrolling up
+        navbar.style.transform = 'translateY(0)';
+    }
+    
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+});
+
 // Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -37,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (mobileMenuBtn && navLinks) {
         mobileMenuBtn.addEventListener('click', function() {
+            mobileMenuBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
         });
     }

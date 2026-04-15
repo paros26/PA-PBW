@@ -1,84 +1,85 @@
-    <!-- Main Content -->
-    <main class="page-content">
-        <div class="container small">
-            <h1 class="page-title">Tentang Jetski Mahakam</h1>
-
-            <!-- Company Profile -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Profil Perusahaan</h2>
-                </div>
-                <div class="card-body">
-                    <p><strong>Jetski Mahakam</strong> adalah penyedia jasa penyewaan jet ski terkemuka di kawasan Sungai Mahakam, Kalimantan Timur. Didirikan pada tahun 2020, kami telah melayani ribuan pelanggan yang mencari pengalaman petualangan air yang mendebarkan dan aman.</p>
-
-                    <p>Dengan armada jet ski modern dan terawat, kami berkomitmen untuk memberikan pengalaman berkendara yang tak terlupakan di atas air. Tim kami terdiri dari instruktur berpengalaman yang siap membantu pemula hingga pengendara berpengalaman.</p>
-
-                    <p>Keselamatan adalah prioritas utama kami. Semua unit jet ski dilengkapi dengan peralatan keselamatan standar internasional dan menjalani pemeriksaan rutin untuk memastikan performa optimal.</p>
-                </div>
+    <!-- About Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="about-hero-content">
+                <span class="about-tagline">Mengenal Lebih Dekat</span>
+                <h1 class="page-title">Tentang <span class="text-primary">Mahakam JetSki</span></h1>
+                <p class="page-subtitle">Dedikasi kami untuk memberikan petualangan air terbaik di jantung Kalimantan Timur.</p>
             </div>
+        </div>
+    </section>
 
-            <!-- Contact Information -->
-            <div class="card">
-                <div class="card-header">
-                    <h2>Informasi Kontak</h2>
+    <!-- Main Content -->
+    <main class="about-content">
+        <div class="container">
+            <!-- Profile Section with Image -->
+            <div class="about-split">
+                <div class="about-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800" alt="Tim Mahakam JetSki" class="about-img">
+                    <div class="experience-badge">
+                        <span class="years">4+</span>
+                        <span class="text">Tahun<br>Pengalaman</span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <p class="contact-label">Alamat</p>
-                            <p>Jl. Tepi Sungai Mahakam No. 123<br>Samarinda, Kalimantan Timur 75117</p>
+                <div class="about-text">
+                    <h2 class="section-title">Cerita Kami</h2>
+                    <p><strong>Jetski Mahakam</strong> lahir dari kecintaan kami terhadap keindahan Sungai Mahakam dan adrenalin olahraga air. Sejak didirikan pada tahun 2020, misi kami tetap sama: menghadirkan cara baru bagi warga Samarinda dan wisatawan untuk menikmati sungai kebanggaan kita.</p>
+                    <p>Kami memahami bahwa petualangan bukan hanya soal kecepatan, tapi juga tentang kenyamanan dan ketenangan pikiran. Itulah sebabnya setiap aspek operasional kami dirancang dengan standar keamanan tertinggi.</p>
+                    <div class="about-features-small">
+                        <div class="small-feat-item">
+                            <span class="feat-icon">✔️</span>
+                            <span>Instruktur Bersertifikat</span>
                         </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <div>
-                            <p class="contact-label">Telepon</p>
-                            <p>+62 812-3456-7890</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">✉️</div>
-                        <div>
-                            <p class="contact-label">Email</p>
-                            <p>info@jetskimahakam.com</p>
-                        </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">⏰</div>
-                        <div>
-                            <p class="contact-label">Jam Operasional</p>
-                            <p>Senin - Jumat: 08.00 - 18.00 WIB<br>Sabtu - Minggu: 07.00 - 19.00 WIB</p>
+                        <div class="small-feat-item">
+                            <span class="feat-icon">✔️</span>
+                            <span>Peralatan Standar Internasional</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Vision & Mission -->
-            <div class="two-col-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Visi</h2>
-                    </div>
-                    <div class="card-body">
-                        <p>Menjadi penyedia jasa penyewaan jet ski terbaik dan terpercaya di Indonesia, dengan standar keselamatan dan pelayanan internasional.</p>
-                    </div>
+            <div class="vision-mission-section">
+                <div class="vision-card">
+                    <div class="v-m-icon">🎯</div>
+                    <h3>Visi Kami</h3>
+                    <p>Menjadi pionir wisata air modern di Kalimantan yang mengedepankan inovasi, keselamatan, dan keberlanjutan lingkungan sungai.</p>
                 </div>
+                <div class="mission-card">
+                    <div class="v-m-icon">🚀</div>
+                    <h3>Misi Kami</h3>
+                    <ul class="mission-list">
+                        <li>Menghadirkan armada jet ski terbaru dengan perawatan rutin.</li>
+                        <li>Membangun ekosistem wisata sungai yang aman dan profesional.</li>
+                        <li>Mempromosikan potensi wisata Sungai Mahakam ke tingkat nasional.</li>
+                    </ul>
+                </div>
+            </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Misi</h2>
+            <!-- Contact & Location Section -->
+            <div class="contact-section">
+                <div class="section-header">
+                    <h2 class="section-title">Hubungi Kami</h2>
+                    <p>Siap untuk konsultasi atau reservasi langsung?</p>
+                </div>
+                
+                <div class="contact-grid-modern">
+                    <div class="contact-card-modern">
+                        <div class="c-icon-bg">📍</div>
+                        <h4>Lokasi Utama</h4>
+                        <p>Jl. Tepi Sungai Mahakam No. 123, Samarinda, Kalimantan Timur 75117</p>
                     </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Menyediakan armada jet ski berkualitas tinggi</li>
-                            <li>Mengutamakan keselamatan pelanggan</li>
-                            <li>Memberikan pelayanan profesional dan ramah</li>
-                            <li>Menjaga kelestarian lingkungan sungai</li>
-                        </ul>
+                    
+                    <div class="contact-card-modern">
+                        <div class="c-icon-bg">📞</div>
+                        <h4>Layanan Pelanggan</h4>
+                        <p>+62 812-3456-7890<br>info@jetskimahakam.com</p>
+                    </div>
+                    
+                    <div class="contact-card-modern">
+                        <div class="c-icon-bg">⏰</div>
+                        <h4>Waktu Operasional</h4>
+                        <p><strong>Hari Kerja:</strong> 08:00 - 18:00<br><strong>Akhir Pekan:</strong> 07:00 - 19:00</p>
                     </div>
                 </div>
             </div>
