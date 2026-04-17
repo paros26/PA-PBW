@@ -3,9 +3,9 @@
             <!-- Jet Ski Management Tab -->
             <div id="jetski-tab" class="tab-content active">
                 <div class="tab-header">
-                    <h2>Kelola Katalog Jet Ski</h2>
+                    <h2>Kelola Paket Rental</h2>
                     <button class="btn btn-primary" onclick="openJetSkiModal()">
-                        <span>➕</span> Tambah Jet Ski
+                        <span>➕</span> Tambah Paket Baru
                     </button>
                 </div>
 
@@ -16,10 +16,10 @@
                                 <thead>
                                     <tr>
                                         <th>Gambar</th>
-                                        <th>Nama</th>
-                                        <th>Brand/Model</th>
-                                        <th>Tahun</th>
-                                        <th>Harga/Jam</th>
+                                        <th>Nama Paket</th>
+                                        <th>Tipe Rider</th>
+                                        <th>Rute</th>
+                                        <th>Harga/Sesi</th>
                                         <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -168,28 +168,40 @@
                 <input type="hidden" id="existing_jetski_image" name="existing_image">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="jetSkiName">Nama Jet Ski *</label>
-                        <input type="text" id="jetSkiName" name="name" placeholder="Contoh: Yamaha VX Cruiser" required>
+                        <label for="jetSkiName">Nama Paket *</label>
+                        <input type="text" id="jetSkiName" name="name" placeholder="Contoh: Paket Keliling Mahakam" required>
                     </div>
                     <div class="form-group">
-                        <label for="jetSkiBrand">Brand *</label>
-                        <input type="text" id="jetSkiBrand" name="brand" placeholder="Contoh: Yamaha" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="jetSkiModel">Model *</label>
-                        <input type="text" id="jetSkiModel" name="model" placeholder="Contoh: VX Cruiser" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jetSkiYear">Tahun *</label>
-                        <input type="number" id="jetSkiYear" name="year" min="2000" max="2027" required>
+                        <label for="jetSkiRiderType">Tipe Rider *</label>
+                        <select id="jetSkiRiderType" name="rider_type" required>
+                            <option value="single">Single Rider</option>
+                            <option value="couple">Couple Rider</option>
+                        </select>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="jetSkiPrice">Harga per Jam (Rp) *</label>
+                    <label for="jetSkiRoute">Rute Perjalanan *</label>
+                    <input type="text" id="jetSkiRoute" name="route" placeholder="Contoh: Jembatan Mahakam - Samarinda Seberang" required>
+                </div>
+
+                <div class="form-row" style="display: none;">
+                    <div class="form-group">
+                        <label for="jetSkiBrand">Brand</label>
+                        <input type="text" id="jetSkiBrand" name="brand" value="JetSki">
+                    </div>
+                    <div class="form-group">
+                        <label for="jetSkiModel">Model</label>
+                        <input type="text" id="jetSkiModel" name="model" value="Mahakam">
+                    </div>
+                    <div class="form-group">
+                        <label for="jetSkiYear">Tahun</label>
+                        <input type="number" id="jetSkiYear" name="year" value="2024">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="jetSkiPrice">Harga per Sesi (Rp) *</label>
                     <input type="number" id="jetSkiPrice" name="price_per_hour" min="0" step="1000" required>
                 </div>
 

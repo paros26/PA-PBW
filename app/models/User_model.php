@@ -16,12 +16,31 @@ class User_model {
         $user = $this->db->single();
 
         if ($user) {
-            // For simple PA project, we might use plain text or password_verify
-            // The original used admin123 plain text
             if ($password == $user['password']) {
                 return $user;
             }
         }
         return false;
+    }
+
+    public function register($data)
+    {
+        $query = "INSERT INTO " . $this->table . " (username, password, role) VALUES (:username, :password, :role)";
+        
+        $this->db->query($query);
+        $this->db->bind('username', $data['username']);
+        $this->db->bind('password', $data['password']); // Mengikuti pola asli (plain text)
+        $this->db->bind('role', 'user');
+
+        $this->db->execute();
+
+        return $this->db->rowCount();
+    }
+
+    public function checkUsername($username)
+    {
+        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE username = :username');
+        $this->db->bind('username', $username);
+        return $this->db->single();
     }
 }

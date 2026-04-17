@@ -84,3 +84,75 @@ function openModal(modalId) {
         modal.classList.add('active');
     }
 }
+
+// ========== BOOKING MANAGEMENT ==========
+
+let selectedJetSki = null;
+
+function openBookingModal(jetSki) {
+    selectedJetSki = jetSki;
+    
+    document.getElementById('bookingJetSkiId').value = jetSki.id;
+    document.getElementById('bookingJetSkiName').value = jetSki.name;
+    document.getElementById('duration').value = 1;
+    
+    // Update display with rider type and route
+    const riderText = jetSki.rider_type === 'single' ? '👤 Single Rider' : '👥 Couple Rider';
+    const detailText = `${riderText} | 📍 ${jetSki.route || 'Rute menyesuaikan'}`;
+    
+    const detailElement = document.getElementById('bookingPackageDetails');
+    if (detailElement) detailElement.textContent = detailText;
+    
+    updateBookingTotalPrice();
+    openModal('bookingModal');
+}
+
+function updateBookingTotalPrice() {
+    if (!selectedJetSki) return;
+    
+    const duration = parseInt(document.getElementById('duration').value) || 0;
+    const total = selectedJetSki.price_per_hour * duration;
+    
+    document.getElementById('bookingTotalPrice').value = total;
+    document.getElementById('bookingTotalPriceDisplay').textContent = formatCurrency(total);
+}
+
+// Handle booking form submission
+document.addEventListener('DOMContentLoaded', function() {
+    const bookingForm = document.getElementById('bookingForm');
+    const durationInput = document.getElementById('duration');
+    
+    if (durationInput) {
+        durationInput.addEventListener('input', updateBookingTotalPrice);
+    }
+    
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const response = await fetch(`${BASEURL}/api/addRental`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === 'success') {
+                alert('Pesanan berhasil dibuat! Silakan hubungi admin via WhatsApp untuk konfirmasi pembayaran.');
+                // Redirect to WhatsApp with order details
+                const waMessage = `Halo Admin Jetski Mahakam, saya ingin konfirmasi pesanan:
+Nama: ${formData.get('customer_name')}
+Paket: ${selectedJetSki.name}
+Tanggal: ${formData.get('rental_date')}
+Durasi: ${formData.get('duration')} sesi
+Total: ${formatCurrency(formData.get('total_price'))}`;
+                
+                window.open(`https://wa.me/628123456789?text=${encodeURIComponent(waMessage)}`, '_blank');
+                closeModal('bookingModal');
+            } else {
+                alert(result.message || 'Gagal memproses pesanan. Silakan coba lagi.');
+            }
+        });
+    }
+});

@@ -1072,6 +1072,31 @@ form { padding: 1.5rem; }
     color: var(--text-muted);
 }
 
+/* Package Styles */
+.package-meta {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.rider-badge {
+    background: rgba(255, 140, 0, 0.1);
+    color: var(--primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 140, 0, 0.2);
+}
+
+.route-info {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+}
+
 /* Gallery Page Styles */
 .gallery-grid {
     display: grid;
@@ -1503,4 +1528,362 @@ form { padding: 1.5rem; }
     .weather-card { padding: 2rem 1.5rem; }
     .weather-display-container { grid-template-columns: 1fr; }
     .weather-details { grid-template-columns: 1fr 1fr; }
+}
+
+/* Login Page - High-End Premium Design */
+.login-wrapper {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Animated Shapes */
+.login-bg-shapes .shape {
+    position: absolute;
+    filter: blur(120px);
+    opacity: 0.15;
+    z-index: 1;
+    border-radius: 50%;
+}
+
+.shape-1 {
+    width: 500px;
+    height: 500px;
+    background: var(--primary);
+    top: -100px;
+    right: -100px;
+    animation: float 20s infinite alternate;
+}
+
+.shape-2 {
+    width: 400px;
+    height: 400px;
+    background: #4f46e5; /* Subtle purple-blue accent */
+    bottom: -100px;
+    left: -100px;
+    animation: float 25s infinite alternate-reverse;
+}
+
+.shape-3 {
+    width: 300px;
+    height: 300px;
+    background: var(--primary-dark);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.05 !important;
+}
+
+@keyframes float {
+    from { transform: translate(0, 0) rotate(0deg); }
+    to { transform: translate(100px, 50px) rotate(30deg); }
+}
+
+.login-card {
+    width: 100%;
+    max-width: 500px; /* Diperlebar sedikit agar tidak terlalu ramping */
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 32px;
+    padding: 2.5rem 3rem; /* Dikurangi padding atas-bawah, ditambah padding kiri-kanan */
+    box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+    position: relative;
+    z-index: 10;
+    animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cardAppear {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem; /* Dikurangi agar lebih padat */
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem; /* Dikurangi */
+}
+
+.login-brand .logo-icon {
+    width: 32px;
+    height: 32px;
+    stroke: var(--primary);
+    stroke-width: 2;
+}
+
+.login-brand span {
+    font-weight: 800;
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-header h1 {
+    font-size: 2.25rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem; /* Dikurangi */
+    color: white;
+    letter-spacing: -1px;
+}
+
+.login-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Alert Styling */
+.login-alert {
+    margin-bottom: 1.5rem; /* Dikurangi */
+}
+
+.alert-content {
+    background: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    color: #ef4444;
+    padding: 0.85rem 1.25rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.alert-content svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Form Controls */
+.login-form .input-group {
+    margin-bottom: 1.25rem; /* Dikurangi vertikalnya */
+}
+
+.login-form label {
+    display: block;
+    color: #aaa;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem; /* Dikurangi */
+    margin-left: 0.5rem;
+}
+
+.input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    color: #555;
+    transition: 0.3s;
+    display: flex;
+}
+
+.input-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.input-field input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 1rem 1.25rem 1.1rem 3.5rem;
+    border-radius: 18px;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-field input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.1);
+}
+
+.input-field input:focus + .input-icon,
+.input-field input:not(:placeholder-shown) + .input-icon {
+    color: var(--primary);
+}
+
+.btn-login-submit {
+    width: 100%;
+    background: var(--primary);
+    color: black;
+    border: none;
+    padding: 1.1rem;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-top: 1.5rem; /* Dikurangi */
+}
+
+.btn-register-link {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-register-link span {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.btn-register-link:hover {
+    transform: translateY(-2px);
+    color: white;
+}
+
+.btn-login-submit svg {
+    width: 20px;
+    height: 20px;
+    transition: 0.3s;
+}
+
+.btn-login-submit:hover {
+    background: #ffa500;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -10px rgba(255, 140, 0, 0.6);
+}
+
+.btn-login-submit:hover svg {
+    transform: translateX(5px);
+}
+
+/* Footer & Dividers */
+.login-footer {
+    margin-top: 2rem; /* Dikurangi */
+}
+
+.footer-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem; /* Dikurangi */
+}
+
+.footer-divider::before,
+.footer-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.footer-divider span {
+    color: #444;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.btn-back-home {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.btn-back-home:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-back-home svg {
+    width: 18px;
+    height: 18px;
+}
+
+.register-text {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.register-text a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2.5rem 1.5rem;
+        border-radius: 24px;
+    }
+}
+
+/* User Nav Styles */
+.user-nav-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.welcome-text {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 992px) {
+    .user-nav-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
 }

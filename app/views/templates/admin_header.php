@@ -17,7 +17,7 @@
                 <h1>Dashboard Admin</h1>
                 <p>Jetski Mahakam Management System</p>
             </div>
-            <a href="<?= BASEURL; ?>/login/logout" class="btn btn-outline" id="logoutBtn">
+            <a href="<?= BASEURL; ?>/login_admin/logout" class="btn btn-outline" id="logoutBtn">
                 <span class="logout-icon">🚪</span> Logout
             </a>
         </div>

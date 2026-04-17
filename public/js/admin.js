@@ -50,41 +50,60 @@ function initTabs() {
 
 // ========== JET SKI MANAGEMENT ==========
 
+// Global state for data
+let currentJetSkis = [];
+let currentRentals = [];
+
 async function loadJetSkis() {
-    const response = await fetch(`${BASEURL}/api/jetskis`);
-    const jetSkis = await response.json();
-    const tbody = document.getElementById('jetSkiTableBody');
-    
-    if (jetSkis.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #666;">Belum ada data jet ski</td></tr>';
-        return;
+    try {
+        const response = await fetch(`${BASEURL}/api/jetskis`);
+        currentJetSkis = await response.json();
+        const tbody = document.getElementById('jetSkiTableBody');
+        
+        if (currentJetSkis.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 2rem; color: #666;">Belum ada data paket rental</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = currentJetSkis.map((jetSki, index) => `
+            <tr>
+                <td>
+                    <img src="${BASEURL}/img/jetski/${jetSki.image_url}" alt="${jetSki.name}" class="table-image"
+                         onerror="this.src='https://via.placeholder.com/64?text=No+Image'">
+                </td>
+                <td><strong>${jetSki.name}</strong></td>
+                <td>
+                    <span class="rider-badge" style="font-size: 0.7rem; padding: 0.2rem 0.5rem;">
+                        ${jetSki.rider_type === 'single' ? '👤 Single' : '👥 Couple'}
+                    </span>
+                </td>
+                <td><small>${jetSki.route || '-'}</small></td>
+                <td>${formatCurrency(jetSki.price_per_hour)}</td>
+                <td>
+                    <span class="status-badge ${jetSki.is_available == 1 ? 'status-available' : 'status-unavailable'}">
+                        ${jetSki.is_available == 1 ? 'Tersedia' : 'Penuh'}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-icon edit" onclick="prepareEditJetSki(${index})">✏️</button>
+                        <button class="btn-icon delete" onclick="deleteJetSki('${jetSki.id}')">🗑️</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+        
+        updateRentalJetSkiOptions(currentJetSkis);
+    } catch (error) {
+        console.error('Error loading jetskis:', error);
     }
-    
-    tbody.innerHTML = jetSkis.map(jetSki => `
-        <tr>
-            <td>
-                <img src="${BASEURL}/img/jetski/${jetSki.image_url}" alt="${jetSki.name}" class="table-image"
-                     onerror="this.src='https://via.placeholder.com/64?text=No+Image'">
-            </td>
-            <td><strong>${jetSki.name}</strong></td>
-            <td>${jetSki.brand} ${jetSki.model}</td>
-            <td>${jetSki.year}</td>
-            <td>${formatCurrency(jetSki.price_per_hour)}</td>
-            <td>
-                <span class="status-badge ${jetSki.is_available == 1 ? 'status-available' : 'status-unavailable'}">
-                    ${jetSki.is_available == 1 ? 'Tersedia' : 'Sedang Disewa'}
-                </span>
-            </td>
-            <td>
-                <div class="action-buttons">
-                    <button class="btn-icon edit" onclick="editJetSki(${JSON.stringify(jetSki).replace(/"/g, '&quot;')})">✏️</button>
-                    <button class="btn-icon delete" onclick="deleteJetSki('${jetSki.id}')">🗑️</button>
-                </div>
-            </td>
-        </tr>
-    `).join('');
-    
-    updateRentalJetSkiOptions(jetSkis);
+}
+
+function prepareEditJetSki(index) {
+    const jetSki = currentJetSkis[index];
+    if (jetSki) {
+        editJetSki(jetSki);
+    }
 }
 
 function openJetSkiModal() {
@@ -92,8 +111,7 @@ function openJetSkiModal() {
     form.reset();
     document.getElementById('jetSkiId').value = '';
     document.getElementById('existing_jetski_image').value = '';
-    document.getElementById('jetSkiModalTitle').textContent = 'Tambah Jet Ski Baru';
-    document.getElementById('jetSkiYear').value = new Date().getFullYear();
+    document.getElementById('jetSkiModalTitle').textContent = 'Tambah Paket Rental Baru';
     document.getElementById('jetSkiAvailable').checked = true;
     document.getElementById('jetSkiImagePreview').innerHTML = '';
     openModal('jetSkiModal');
@@ -102,14 +120,18 @@ function openJetSkiModal() {
 function editJetSki(jetSki) {
     document.getElementById('jetSkiId').value = jetSki.id;
     document.getElementById('existing_jetski_image').value = jetSki.image_url;
-    document.getElementById('jetSkiModalTitle').textContent = 'Ubah Jet Ski';
+    document.getElementById('jetSkiModalTitle').textContent = 'Ubah Paket Rental';
     document.getElementById('jetSkiName').value = jetSki.name;
-    document.getElementById('jetSkiBrand').value = jetSki.brand;
-    document.getElementById('jetSkiModel').value = jetSki.model;
-    document.getElementById('jetSkiYear').value = jetSki.year;
+    document.getElementById('jetSkiRiderType').value = jetSki.rider_type || 'single';
+    document.getElementById('jetSkiRoute').value = jetSki.route || '';
     document.getElementById('jetSkiPrice').value = jetSki.price_per_hour;
     document.getElementById('jetSkiDescription').value = jetSki.description;
     document.getElementById('jetSkiAvailable').checked = jetSki.is_available == 1;
+    
+    // Ensure hidden technical fields are preserved during update
+    document.getElementById('jetSkiBrand').value = jetSki.brand || 'JetSki';
+    document.getElementById('jetSkiModel').value = jetSki.model || 'Mahakam';
+    document.getElementById('jetSkiYear').value = jetSki.year || 2024;
     
     if (jetSki.image_url) {
         document.getElementById('jetSkiImagePreview').innerHTML = `
@@ -125,90 +147,116 @@ function editJetSki(jetSki) {
 
 async function handleJetSkiSubmit(e) {
     e.preventDefault();
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerHTML;
     
-    const id = document.getElementById('jetSkiId').value;
-    const url = id ? `${BASEURL}/api/updateJetski` : `${BASEURL}/api/addJetski`;
-    
-    const formData = new FormData(this);
-    if (!formData.has('is_available')) {
-        formData.append('is_available', '0');
-    }
+    try {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>⏳</span> Menyimpan...';
 
-    const response = await fetch(url, {
-        method: 'POST',
-        body: formData
-    });
-    
-    const result = await response.json();
-    
-    if (result.status === 'success') {
-        showToast('Jet ski berhasil disimpan!', 'success');
-        loadJetSkis();
-        closeModal('jetSkiModal');
-    } else {
-        showToast('Gagal menyimpan jet ski', 'error');
+        const id = document.getElementById('jetSkiId').value;
+        const url = id ? `${BASEURL}/api/updateJetski` : `${BASEURL}/api/addJetski`;
+        
+        const formData = new FormData(this);
+        // Explicitly set is_available value (1 if checked, 0 if not)
+        const isAvailable = document.getElementById('jetSkiAvailable').checked ? '1' : '0';
+        formData.set('is_available', isAvailable);
+
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showToast('Paket rental berhasil disimpan!', 'success');
+            loadJetSkis();
+            closeModal('jetSkiModal');
+        } else {
+            showToast(result.message || 'Gagal menyimpan paket rental', 'error');
+        }
+    } catch (error) {
+        console.error('Submit error:', error);
+        showToast('Terjadi kesalahan koneksi atau sistem', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
     }
 }
 
 async function deleteJetSki(id) {
-    if (!confirm('Apakah Anda yakin ingin menghapus jet ski ini?')) return;
+    if (!confirm('Apakah Anda yakin ingin menghapus paket rental ini?')) return;
     
     const response = await fetch(`${BASEURL}/api/deleteJetski/${id}`);
     const result = await response.json();
     
     if (result.status === 'success') {
-        showToast('Jet ski berhasil dihapus!', 'success');
+        showToast('Paket rental berhasil dihapus!', 'success');
         loadJetSkis();
     } else {
-        showToast('Gagal menghapus jet ski', 'error');
+        showToast('Gagal menghapus paket rental', 'error');
     }
 }
 
 // ========== RENTAL MANAGEMENT ==========
 
 async function loadRentals() {
-    const response = await fetch(`${BASEURL}/api/rentals`);
-    const rentals = await response.json();
-    const tbody = document.getElementById('rentalsTableBody');
-    
-    if (rentals.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #666;">Belum ada transaksi sewa</td></tr>';
-        return;
+    try {
+        const response = await fetch(`${BASEURL}/api/rentals`);
+        currentRentals = await response.json();
+        const tbody = document.getElementById('rentalsTableBody');
+        
+        if (currentRentals.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #666;">Belum ada transaksi sewa</td></tr>';
+            return;
+        }
+        
+        tbody.innerHTML = currentRentals.map((rental, index) => {
+            const isDeleted = rental.status === 'deleted';
+            return `
+                <tr class="${isDeleted ? 'row-deleted' : ''}">
+                    <td>
+                        ${rental.payment_proof ? 
+                            `<img src="${BASEURL}/img/payments/${rental.payment_proof}" class="table-image" style="cursor: pointer;" onclick="viewPaymentProof('${rental.payment_proof}')">` : 
+                            '<span style="color: #999; font-size: 0.8rem;">No Proof</span>'}
+                    </td>
+                    <td>${rental.jetski_name}</td>
+                    <td>${rental.customer_name}</td>
+                    <td>${rental.customer_phone}</td>
+                    <td>${formatDate(rental.rental_date)}</td>
+                    <td>${rental.duration} sesi</td>
+                    <td><strong>${formatCurrency(rental.total_price)}</strong></td>
+                    <td>
+                        <span class="status-badge status-${rental.status}">
+                            ${rental.status === 'active' ? 'Aktif' : 
+                            rental.status === 'completed' ? 'Selesai' : 
+                            rental.status === 'cancelled' ? 'Dibatalkan' : 'Dihapus'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            ${!isDeleted ? `
+                                <button class="btn-icon edit" onclick="prepareEditRental(${index})">✏️</button>
+                                <button class="btn-icon delete" onclick="deleteRental('${rental.id}')">🗑️</button>
+                            ` : '<span style="color: #999; font-size: 0.8rem;">Non-editable</span>'}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    } catch (error) {
+        console.error('Error loading rentals:', error);
     }
-    
-    tbody.innerHTML = rentals.map(rental => {
-        const isDeleted = rental.status === 'deleted';
-        return `
-            <tr class="${isDeleted ? 'row-deleted' : ''}">
-                <td>
-                    ${rental.payment_proof ? 
-                        `<img src="${BASEURL}/img/payments/${rental.payment_proof}" class="table-image" style="cursor: pointer;" onclick="viewPaymentProof('${rental.payment_proof}')">` : 
-                        '<span style="color: #999; font-size: 0.8rem;">No Proof</span>'}
-                </td>
-                <td>${rental.jetski_name}</td>
-                <td>${rental.customer_name}</td>
-                <td>${rental.customer_phone}</td>
-                <td>${formatDate(rental.rental_date)}</td>
-                <td>${rental.duration} jam</td>
-                <td><strong>${formatCurrency(rental.total_price)}</strong></td>
-                <td>
-                    <span class="status-badge status-${rental.status}">
-                        ${rental.status === 'active' ? 'Aktif' : 
-                          rental.status === 'completed' ? 'Selesai' : 
-                          rental.status === 'cancelled' ? 'Dibatalkan' : 'Dihapus'}
-                    </span>
-                </td>
-                <td>
-                    <div class="action-buttons">
-                        ${!isDeleted ? `
-                            <button class="btn-icon edit" onclick='editRental(${JSON.stringify(rental).replace(/'/g, "&apos;")})'>✏️</button>
-                            <button class="btn-icon delete" onclick="deleteRental('${rental.id}')">🗑️</button>
-                        ` : '<span style="color: #999; font-size: 0.8rem;">Non-editable</span>'}
-                    </div>
-                </td>
-            </tr>
-        `;
-    }).join('');
+}
+
+function prepareEditRental(index) {
+    const rental = currentRentals[index];
+    if (rental) {
+        editRental(rental);
+    }
 }
 
 function viewPaymentProof(fileName) {
@@ -220,9 +268,9 @@ function updateRentalJetSkiOptions(jetSkis) {
     const select = document.getElementById('rentalJetSki');
     if (!select) return;
     
-    select.innerHTML = '<option value="">-- Pilih Jet Ski --</option>' +
+    select.innerHTML = '<option value="">-- Pilih Paket Rental --</option>' +
         jetSkis.map(js => `
-            <option value="${js.id}" data-price="${js.price_per_hour}">${js.name} - ${formatCurrency(js.price_per_hour)}/jam</option>
+            <option value="${js.id}" data-price="${js.price_per_hour}">${js.name} - ${formatCurrency(js.price_per_hour)}/sesi</option>
         `).join('');
 }
 
@@ -383,7 +431,7 @@ async function generateIncomeReport() {
             <td>${formatDate(rental.rental_date)}</td>
             <td>${rental.jetski_name}</td>
             <td>${rental.customer_name}</td>
-            <td>${rental.duration} jam</td>
+            <td>${rental.duration} sesi</td>
             <td><strong>${formatCurrency(rental.total_price)}</strong></td>
         </tr>
     `).join('');
@@ -446,34 +494,47 @@ function updateIncomeChart(labels, data, monthName) {
 
 // ========== GALLERY MANAGEMENT ==========
 
+let currentGallery = [];
+
 async function loadGalleryAdmin() {
-    const response = await fetch(`${BASEURL}/api/gallery`);
-    const gallery = await response.json();
-    const grid = document.getElementById('galleryAdminGrid');
-    
-    if (!grid) return;
-    
-    if (gallery.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">Belum ada foto galeri</div>';
-        return;
-    }
-    
-    grid.innerHTML = gallery.map(item => `
-        <div class="gallery-admin-item">
-            <img src="${BASEURL}/img/gallery/${item.image_url}" alt="${item.caption}" class="gallery-admin-image"
-                 onerror="this.src='https://via.placeholder.com/250x180?text=No+Image'">
-            <div class="gallery-admin-content">
-                <div>
-                    <p class="gallery-admin-caption">${item.caption}</p>
-                    <p class="gallery-admin-date">Diunggah: ${formatDate(item.upload_date)}</p>
-                </div>
-                <div class="gallery-admin-actions">
-                    <button class="btn-icon edit" onclick='editGallery(${JSON.stringify(item).replace(/'/g, "&apos;")})'>✏️ Edit</button>
-                    <button class="btn-icon delete" onclick="deleteGalleryImage('${item.id}')">🗑️ Hapus</button>
+    try {
+        const response = await fetch(`${BASEURL}/api/gallery`);
+        currentGallery = await response.json();
+        const grid = document.getElementById('galleryAdminGrid');
+        
+        if (!grid) return;
+        
+        if (currentGallery.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">Belum ada foto galeri</div>';
+            return;
+        }
+        
+        grid.innerHTML = currentGallery.map((item, index) => `
+            <div class="gallery-admin-item">
+                <img src="${BASEURL}/img/gallery/${item.image_url}" alt="${item.caption}" class="gallery-admin-image"
+                     onerror="this.src='https://via.placeholder.com/250x180?text=No+Image'">
+                <div class="gallery-admin-content">
+                    <div>
+                        <p class="gallery-admin-caption">${item.caption}</p>
+                        <p class="gallery-admin-date">Diunggah: ${formatDate(item.upload_date)}</p>
+                    </div>
+                    <div class="gallery-admin-actions">
+                        <button class="btn-icon edit" onclick="prepareEditGallery(${index})">✏️ Edit</button>
+                        <button class="btn-icon delete" onclick="deleteGalleryImage('${item.id}')">🗑️ Hapus</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    } catch (error) {
+        console.error('Error loading gallery:', error);
+    }
+}
+
+function prepareEditGallery(index) {
+    const item = currentGallery[index];
+    if (item) {
+        editGallery(item);
+    }
 }
 
 function openGalleryModal() {

@@ -24,14 +24,16 @@ class JetSki_model {
 
     public function tambahDataJetSki($data)
     {
-        $query = "INSERT INTO jetskis (name, brand, model, year, price_per_hour, image_url, description, is_available) 
-                  VALUES (:name, :brand, :model, :year, :price_per_hour, :image_url, :description, :is_available)";
+        $query = "INSERT INTO jetskis (name, brand, model, year, rider_type, route, price_per_hour, image_url, description, is_available) 
+                  VALUES (:name, :brand, :model, :year, :rider_type, :route, :price_per_hour, :image_url, :description, :is_available)";
         
         $this->db->query($query);
         $this->db->bind('name', $data['name']);
         $this->db->bind('brand', $data['brand']);
         $this->db->bind('model', $data['model']);
         $this->db->bind('year', $data['year']);
+        $this->db->bind('rider_type', $data['rider_type']);
+        $this->db->bind('route', $data['route']);
         $this->db->bind('price_per_hour', $data['price_per_hour']);
         $this->db->bind('image_url', $data['image_url']);
         $this->db->bind('description', $data['description']);
@@ -58,6 +60,8 @@ class JetSki_model {
                     brand = :brand,
                     model = :model,
                     year = :year,
+                    rider_type = :rider_type,
+                    route = :route,
                     price_per_hour = :price_per_hour,
                     image_url = :image_url,
                     description = :description,
@@ -69,6 +73,8 @@ class JetSki_model {
         $this->db->bind('brand', $data['brand']);
         $this->db->bind('model', $data['model']);
         $this->db->bind('year', $data['year']);
+        $this->db->bind('rider_type', $data['rider_type']);
+        $this->db->bind('route', $data['route']);
         $this->db->bind('price_per_hour', $data['price_per_hour']);
         $this->db->bind('image_url', $data['image_url']);
         $this->db->bind('description', $data['description']);

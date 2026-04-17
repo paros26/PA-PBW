@@ -50,10 +50,12 @@ class Api extends Controller {
         $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
         $_POST['image_url'] = $image_url ?: $_POST['existing_image'];
 
-        if ($this->model('JetSki_model')->ubahDataJetSki($_POST) > 0) {
+        try {
+            $this->model('JetSki_model')->ubahDataJetSki($_POST);
+            // In PDO, if data is identical, rowCount is 0, but it's not an error.
             echo json_encode(['status' => 'success']);
-        } else {
-            echo json_encode(['status' => 'error']);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 

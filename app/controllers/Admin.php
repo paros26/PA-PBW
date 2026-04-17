@@ -4,7 +4,7 @@ class Admin extends Controller {
     public function __construct()
     {
         if (!isset($_SESSION['admin'])) {
-            header('Location: ' . BASEURL . '/login');
+            header('Location: ' . BASEURL . '/login_admin');
             exit;
         }
     }

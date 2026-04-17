@@ -28,7 +28,15 @@
                 <a href="<?= BASEURL; ?>/about" class="nav-link <?= ($data['active'] == 'about') ? 'active' : ''; ?>">Tentang Kami</a>
                 <a href="<?= BASEURL; ?>/catalog" class="nav-link <?= ($data['active'] == 'catalog') ? 'active' : ''; ?>">Katalog</a>
                 <a href="<?= BASEURL; ?>/gallery" class="nav-link <?= ($data['active'] == 'gallery') ? 'active' : ''; ?>">Galeri</a>
-                <a href="<?= BASEURL; ?>/login" class="btn-nav-login">Admin Login</a>
+                
+                <?php if (isset($_SESSION['user'])) : ?>
+                    <div class="user-nav-info">
+                        <span class="welcome-text">Halo, <?= $_SESSION['user_name']; ?></span>
+                        <a href="<?= BASEURL; ?>/user_login/logout" class="btn-nav-login">Logout</a>
+                    </div>
+                <?php else : ?>
+                    <a href="<?= BASEURL; ?>/user_login" class="btn-nav-login">Login Pelanggan</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>

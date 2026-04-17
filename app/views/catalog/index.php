@@ -2,8 +2,8 @@
     <main class="page-content">
         <div class="container">
             <div class="page-header">
-                <h1 class="page-title">Katalog Jet Ski</h1>
-                <p class="page-subtitle">Pilih unit jet ski favorit Anda untuk petualangan yang tak terlupakan</p>
+                <h1 class="page-title">Paket Rental Jet Ski</h1>
+                <p class="page-subtitle">Pilih paket petualangan terbaik untuk menjelajahi Sungai Mahakam</p>
             </div>
 
             <div class="catalog-grid" id="catalogGrid">
@@ -13,18 +13,31 @@
                             <img src="<?= BASEURL; ?>/img/jetski/<?= $jetSki['image_url']; ?>" alt="<?= $jetSki['name']; ?>" class="catalog-image" 
                                  onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
                             <span class="badge <?= $jetSki['is_available'] ? 'badge-green' : 'badge-red'; ?>">
-                                <?= $jetSki['is_available'] ? 'Tersedia' : 'Sedang Disewa'; ?>
+                                <?= $jetSki['is_available'] ? 'Tersedia' : 'Penuh'; ?>
                             </span>
                         </div>
                         <div class="catalog-content">
+                            <div class="package-meta">
+                                <span class="rider-badge">
+                                    <?= ($jetSki['rider_type'] == 'single') ? '👤 Single Rider' : '👥 Couple Rider'; ?>
+                                </span>
+                            </div>
                             <h3 class="catalog-title"><?= $jetSki['name']; ?></h3>
-                            <p class="catalog-subtitle"><?= $jetSki['brand']; ?> <?= $jetSki['model']; ?> (<?= $jetSki['year']; ?>)</p>
+                            
+                            <div class="route-info" style="margin-bottom: 1rem;">
+                                <p style="color: var(--primary); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">
+                                    📍 Rute Perjalanan:
+                                </p>
+                                <p style="color: #eee; font-size: 0.95rem;"><?= $jetSki['route'] ?: 'Rute menyesuaikan'; ?></p>
+                            </div>
+
                             <p class="catalog-description"><?= $jetSki['description']; ?></p>
+                            
                             <div class="catalog-price">
-                                <p class="catalog-price-label">Harga Sewa</p>
+                                <p class="catalog-price-label">Harga Paket</p>
                                 <p class="catalog-price-amount">
                                     Rp <?= number_format($jetSki['price_per_hour'], 0, ',', '.'); ?>
-                                    <span class="catalog-price-unit">/jam</span>
+                                    <span class="catalog-price-unit">/sesi</span>
                                 </p>
                             </div>
                             
@@ -32,11 +45,11 @@
                                 <?php if($jetSki['is_available']): ?>
                                     <button class="btn btn-primary" style="width: 100%;" 
                                             onclick='openBookingModal(<?= json_encode($jetSki); ?>)'>
-                                        Sewa Sekarang
+                                        Pesan Paket
                                     </button>
                                 <?php else: ?>
                                     <button class="btn btn-outline" style="width: 100%; cursor: not-allowed;" disabled>
-                                        Tidak Tersedia
+                                        Paket Tidak Tersedia
                                     </button>
                                 <?php endif; ?>
                             </div>
@@ -58,8 +71,9 @@
                 <input type="hidden" id="bookingJetSkiId" name="jetski_id">
                 
                 <div class="form-group">
-                    <label>Unit Jet Ski</label>
-                    <input type="text" id="bookingJetSkiName" readonly style="background: #f3f4f6;">
+                    <label>Paket Rental</label>
+                    <input type="text" id="bookingJetSkiName" readonly style="background: rgba(255,255,255,0.05); color: white; font-weight: 700;">
+                    <p id="bookingPackageDetails" style="font-size: 0.85rem; color: var(--primary); margin-top: 5px; font-weight: 600;"></p>
                 </div>
 
                 <div class="form-group">
@@ -80,13 +94,13 @@
                         <input type="date" id="rental_date" name="rental_date" required>
                     </div>
                     <div class="form-group">
-                        <label for="duration">Durasi (Jam) *</label>
+                        <label for="duration">Jumlah Sesi *</label>
                         <input type="number" id="duration" name="duration" min="1" value="1" required>
                     </div>
                 </div>
 
                 <div class="price-preview">
-                    <p>Estimasi Total: <strong id="bookingTotalPriceDisplay">Rp 0</strong></p>
+                    <p>Estimasi Total Paket: <strong id="bookingTotalPriceDisplay">Rp 0</strong></p>
                     <input type="hidden" id="bookingTotalPrice" name="total_price">
                     <input type="hidden" name="status" value="active">
                 </div>
