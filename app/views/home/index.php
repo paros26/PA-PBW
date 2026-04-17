@@ -72,6 +72,25 @@
         </div>
     </section>
 
+    <!-- Weather Section -->
+    <section class="weather-forecast" id="weather">
+        <div class="container">
+            <div class="weather-card">
+                <div class="weather-info">
+                    <div class="weather-main">
+                        <h2 class="section-title">Kondisi Cuaca <span class="text-primary">Samarinda</span></h2>
+                        <p class="section-subtitle">Pantau cuaca sebelum Anda memulai petualangan di Sungai Mahakam.</p>
+                        
+                        <div id="weather-display" class="weather-loading">
+                            <div class="loader"></div>
+                            <p>Memuat prakiraan cuaca...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta">
         <div class="cta-content container">

@@ -5,6 +5,7 @@ class Home extends Controller {
     {
         $data['judul'] = 'Jetski Mahakam - Beranda';
         $data['active'] = 'index';
+        $data['extra_scripts'] = ['weather.js'];
         
         $this->view('templates/header', $data);
         $this->view('home/index', $data);
