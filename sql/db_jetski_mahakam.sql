@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS rentals (
     rental_date DATE NOT NULL,
     duration INT NOT NULL, -- Dalam sesi/jam
     total_price DECIMAL(15, 2) NOT NULL,
+    token VARCHAR(20) DEFAULT NULL,
     payment_proof VARCHAR(255) DEFAULT NULL,
     status ENUM('active', 'completed', 'cancelled', 'deleted') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

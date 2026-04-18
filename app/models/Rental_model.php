@@ -36,8 +36,8 @@ class Rental_model {
             return 0;
         }
 
-        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, duration, total_price, payment_proof, status) 
-                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :duration, :total_price, :payment_proof, :status)";
+        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, duration, total_price, payment_proof, status, token) 
+                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :duration, :total_price, :payment_proof, :status, :token)";
         
         $this->db->query($query);
         $this->db->bind('jetski_id', $data['jetski_id']);
@@ -48,6 +48,7 @@ class Rental_model {
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? null);
         $this->db->bind('status', $data['status'] ?? 'active');
+        $this->db->bind('token', $data['token'] ?? null);
 
         try {
             $this->db->execute();
@@ -87,7 +88,8 @@ class Rental_model {
                     duration = :duration,
                     total_price = :total_price,
                     payment_proof = :payment_proof,
-                    status = :status
+                    status = :status,
+                    token = :token
                   WHERE id = :id";
         
         $this->db->query($query);
@@ -99,6 +101,7 @@ class Rental_model {
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? ($existing['payment_proof'] ?? null));
         $this->db->bind('status', $data['status']);
+        $this->db->bind('token', $data['token'] ?? ($existing['token'] ?? null));
         $this->db->bind('id', $data['id']);
 
         $this->db->execute();

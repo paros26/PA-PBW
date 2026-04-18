@@ -49,6 +49,7 @@
                                 <thead>
                                     <tr>
                                         <th>Bukti</th>
+                                        <th>Token</th>
                                         <th>Jet Ski</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Telepon</th>

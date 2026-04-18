@@ -223,6 +223,7 @@ async function loadRentals() {
                             `<img src="${BASEURL}/img/payments/${rental.payment_proof}" class="table-image" style="cursor: pointer;" onclick="viewPaymentProof('${rental.payment_proof}')">` : 
                             '<span style="color: #999; font-size: 0.8rem;">No Proof</span>'}
                     </td>
+                    <td><code style="background: #333; padding: 2px 5px; border-radius: 4px; color: var(--primary); font-weight: bold;">${rental.token || '-'}</code></td>
                     <td>${rental.jetski_name}</td>
                     <td>${rental.customer_name}</td>
                     <td>${rental.customer_phone}</td>
