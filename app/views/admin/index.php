@@ -160,62 +160,61 @@
     <div id="jetSkiModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="jetSkiModalTitle">Tambah Jet Ski Baru</h2>
-                <button class="modal-close" onclick="closeModal('jetSkiModal')">&times;</button>
+            <h2 id="jetSkiModalTitle">Tambah Paket Rental Baru</h2>
+            <button class="modal-close" onclick="closeModal('jetSkiModal')">&times;</button>
             </div>
             <form id="jetSkiForm" enctype="multipart/form-data">
-                <input type="hidden" id="jetSkiId" name="id">
-                <input type="hidden" id="existing_jetski_image" name="existing_image">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="jetSkiName">Nama Paket *</label>
-                        <input type="text" id="jetSkiName" name="name" placeholder="Contoh: Paket Keliling Mahakam" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jetSkiRiderType">Tipe Rider *</label>
-                        <select id="jetSkiRiderType" name="rider_type" required>
-                            <option value="single">Single Rider</option>
-                            <option value="couple">Couple Rider</option>
-                        </select>
-                    </div>
-                </div>
-
+            <input type="hidden" id="jetSkiId" name="id">
+            <input type="hidden" id="existing_jetski_image" name="existing_image">
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="jetSkiRoute">Rute Perjalanan *</label>
-                    <input type="text" id="jetSkiRoute" name="route" placeholder="Contoh: Jembatan Mahakam - Samarinda Seberang" required>
+                    <label for="jetSkiName">Nama Paket *</label>
+                    <input type="text" id="jetSkiName" name="name" placeholder="Contoh: Paket Keliling Mahakam" required>
                 </div>
-
-                <div class="form-row" style="display: none;">
-                    <div class="form-group">
-                        <label for="jetSkiBrand">Brand</label>
-                        <input type="text" id="jetSkiBrand" name="brand" value="JetSki">
-                    </div>
-                    <div class="form-group">
-                        <label for="jetSkiModel">Model</label>
-                        <input type="text" id="jetSkiModel" name="model" value="Mahakam">
-                    </div>
-                    <div class="form-group">
-                        <label for="jetSkiYear">Tahun</label>
-                        <input type="number" id="jetSkiYear" name="year" value="2024">
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="jetSkiPrice">Harga per Sesi (Rp) *</label>
-                    <input type="number" id="jetSkiPrice" name="price_per_hour" min="0" step="1000" required>
+                    <label for="jetSkiRiderType">Tipe Rider *</label>
+                    <select id="jetSkiRiderType" name="rider_type" required>
+                        <option value="single">Single Rider</option>
+                        <option value="couple">Couple Rider</option>
+                    </select>
                 </div>
+            </div>
 
+            <div class="form-group">
+                <label for="jetSkiRoute">Rute Perjalanan *</label>
+                <input type="text" id="jetSkiRoute" name="route" placeholder="Contoh: Jembatan Mahakam - Samarinda Seberang" required>
+            </div>
+
+            <div class="form-row" style="display: none;">
                 <div class="form-group">
-                    <label for="jetSkiImage">Foto Jet Ski *</label>
-                    <input type="file" id="jetSkiImage" name="image_file" accept="image/*">
-                    <div id="jetSkiImagePreview" style="margin-top: 10px;"></div>
+                    <label for="jetSkiBrand">Brand</label>
+                    <input type="text" id="jetSkiBrand" name="brand" value="JetSki">
                 </div>
-
                 <div class="form-group">
-                    <label for="jetSkiDescription">Deskripsi *</label>
-                    <textarea id="jetSkiDescription" name="description" rows="3" placeholder="Deskripsi singkat..." required></textarea>
+                    <label for="jetSkiModel">Model</label>
+                    <input type="text" id="jetSkiModel" name="model" value="Mahakam">
                 </div>
+                <div class="form-group">
+                    <label for="jetSkiYear">Tahun</label>
+                    <input type="number" id="jetSkiYear" name="year" value="2024">
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label for="jetSkiPrice">Harga per Sesi (Rp) *</label>
+                <input type="number" id="jetSkiPrice" name="price_per_hour" min="0" step="1000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="jetSkiImage">Foto Paket Rental *</label>
+                <input type="file" id="jetSkiImage" name="image_file" accept="image/*">
+                <div id="jetSkiImagePreview" style="margin-top: 10px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="jetSkiDescription">Deskripsi *</label>
+                <textarea id="jetSkiDescription" name="description" rows="3" placeholder="Deskripsi singkat..." required></textarea>
+            </div>
                 <div class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" id="jetSkiAvailable" name="is_available" checked value="1">
