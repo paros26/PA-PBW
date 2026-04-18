@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS jetskis (
     brand VARCHAR(50) NOT NULL,
     model VARCHAR(50) NOT NULL,
     year INT NOT NULL,
+    rider_type VARCHAR(50),
+    route VARCHAR(100),
     price_per_hour DECIMAL(15, 2) NOT NULL,
     image_url TEXT NOT NULL,
     description TEXT,
@@ -33,7 +35,7 @@ CREATE TABLE IF NOT EXISTS rentals (
     duration INT NOT NULL,
     total_price DECIMAL(15, 2) NOT NULL,
     payment_proof VARCHAR(255) DEFAULT NULL,
-    status ENUM('active', 'completed', 'cancelled') DEFAULT 'active',
+    status ENUM('active', 'completed', 'cancelled', 'deleted') DEFAULT 'active',
     FOREIGN KEY (jetski_id) REFERENCES jetskis(id)
 );
 

@@ -19,7 +19,8 @@ class Api extends Controller {
 
             if (in_array($ekstensiGambar, $ekstensiGambarValid)) {
                 $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-                $targetPath = '../public/img/' . $folder . '/';
+                // Since we are running from public/index.php, the current directory is public/
+                $targetPath = 'img/' . $folder . '/';
                 
                 if (!file_exists($targetPath)) {
                     mkdir($targetPath, 0777, true);
