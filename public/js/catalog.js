@@ -18,6 +18,13 @@ function openBookingModal(jetSki) {
     document.getElementById('bookingJetSkiName').value = jetSki.name;
     currentJetSkiPrice = parseInt(jetSki.price_per_hour);
     
+    // Update display with rider type and route
+    const riderText = jetSki.rider_type === 'single' ? '👤 Single Rider' : '👥 Couple Rider';
+    const detailText = `${riderText} | 📍 ${jetSki.route || 'Rute menyesuaikan'}`;
+    
+    const detailElement = document.getElementById('bookingPackageDetails');
+    if (detailElement) detailElement.textContent = detailText;
+    
     // Set default date to today
     document.getElementById('rental_date').value = new Date().toISOString().split('T')[0];
     document.getElementById('duration').value = 1;
