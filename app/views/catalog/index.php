@@ -43,10 +43,16 @@
                             
                             <div style="margin-top: 1.5rem;">
                                 <?php if($jetSki['is_available']): ?>
-                                    <button class="btn btn-primary" style="width: 100%;" 
-                                            onclick='openBookingModal(<?= json_encode($jetSki); ?>)'>
-                                        Pesan Paket
-                                    </button>
+                                    <?php if(isset($_SESSION['user'])): ?>
+                                        <button class="btn btn-primary" style="width: 100%;" 
+                                                onclick='openBookingModal(<?= json_encode($jetSki); ?>)'>
+                                            Pesan Paket
+                                        </button>
+                                    <?php else: ?>
+                                        <a href="<?= BASEURL; ?>/user_login" class="btn btn-primary" style="width: 100%; text-decoration: none; display: inline-block; text-align: center;">
+                                            Pesan Paket
+                                        </a>
+                                    <?php endif; ?>
                                 <?php else: ?>
                                     <button class="btn btn-outline" style="width: 100%; cursor: not-allowed;" disabled>
                                         Paket Tidak Tersedia
