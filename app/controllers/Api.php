@@ -91,13 +91,22 @@ class Api extends Controller {
 
     public function addRental()
     {
-        $payment_proof = $this->uploadImage($_FILES['payment_proof'] ?? null, 'payments');
-        $_POST['payment_proof'] = $payment_proof;
+        try {
+            $payment_proof = $this->uploadImage($_FILES['payment_proof'] ?? null, 'payments');
+            $_POST['payment_proof'] = $payment_proof;
+            
+            // Konversi total_price ke float untuk keamanan database
+            if (isset($_POST['total_price'])) {
+                $_POST['total_price'] = (float)$_POST['total_price'];
+            }
 
-        if ($this->model('Rental_model')->tambahDataRental($_POST) > 0) {
-            echo json_encode(['status' => 'success']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Gagal menambah data atau format telepon salah (hanya angka)']);
+            if ($this->model('Rental_model')->tambahDataRental($_POST) > 0) {
+                echo json_encode(['status' => 'success']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Gagal mencatat penyewaan di database']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
     }
 

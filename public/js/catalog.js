@@ -50,6 +50,10 @@ async function handleBookingSubmit(e) {
     const formData = new FormData(this);
     formData.append('token', token); // Tambahkan token ke data yang dikirim ke database
     
+    // Pastikan total_price adalah angka murni (ambil dari hidden input, bukan dari tampilan display yang ada Rp nya)
+    const rawPrice = document.getElementById('bookingTotalPrice').value;
+    formData.set('total_price', rawPrice);
+    
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalBtnText = submitBtn.innerHTML;
 
@@ -69,28 +73,27 @@ async function handleBookingSubmit(e) {
             const jetSkiName = document.getElementById('bookingJetSkiName').value;
             const duration = document.getElementById('duration').value;
             const rentalDate = document.getElementById('rental_date').value;
-            const totalPrice = document.getElementById('bookingTotalPriceDisplay').textContent;
+            const totalPriceDisplay = document.getElementById('bookingTotalPriceDisplay').textContent;
             
             // Pesan Konfirmasi
             alert(`Pemesanan Berhasil!\n\nTOKEN ANDA: ${token}\n\nHarap simpan token ini. Anda akan diarahkan ke WhatsApp untuk konfirmasi pembayaran.`);
             
             // Konfigurasi WhatsApp
-            const adminPhone = '6285388832007'; // Ganti dengan nomor WhatsApp Admin Mahakam yang aktif
+            const adminPhone = '6285388832007'; // Nomor Admin Mahakam
             const message = `*KONFIRMASI RENTAL JETSKI MAHAKAM*\n\n` +
                           `*Token:* ${token}\n` +
                           `*Nama:* ${customerName}\n` +
                           `*Paket:* ${jetSkiName}\n` +
                           `*Tanggal:* ${rentalDate}\n` +
                           `*Durasi:* ${duration} Sesi\n` +
-                          `*Total:* ${totalPrice}\n\n` +
+                          `*Total:* ${totalPriceDisplay}\n\n` +
                           `Halo Admin, saya ingin mengonfirmasi pesanan rental saya dengan token di atas. Mohon instruksi pembayarannya.`;
             
             const waUrl = `https://wa.me/${adminPhone}?text=${encodeURIComponent(message)}`;
             
-            // Buka di tab baru atau redirect
             window.location.href = waUrl;
         } else {
-            alert(result.message || 'Gagal mengirim pesanan');
+            alert(result.message || 'Gagal mengirim pesanan. Pastikan semua data terisi dengan benar.');
         }
     } catch (error) {
         console.error('Error:', error);
