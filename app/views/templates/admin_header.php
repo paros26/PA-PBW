@@ -28,7 +28,7 @@
         <aside class="admin-sidebar">
             <nav class="admin-nav">
                 <button class="admin-nav-btn active" data-tab="jetski">
-                    <span class="nav-icon">🌊</span> Katalog Jet Ski
+                    <span class="nav-icon">🌊</span> Kelola Paket Rental
                 </button>
                 <button class="admin-nav-btn" data-tab="rentals">
                     <span class="nav-icon">📝</span> Transaksi Sewa
