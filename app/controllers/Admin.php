@@ -17,6 +17,7 @@ class Admin extends Controller {
         $data['jetskis'] = $this->model('JetSki_model')->getAllJetSkis();
         $data['rentals'] = $this->model('Rental_model')->getAllRentals();
         $data['gallery'] = $this->model('Gallery_model')->getAllGallery();
+        $data['users'] = $this->model('User_model')->getAllUsers();
         
         $this->view('templates/admin_header', $data);
         $this->view('admin/index', $data);
@@ -95,6 +96,36 @@ class Admin extends Controller {
     public function hapusGallery($id)
     {
         if ($this->model('Gallery_model')->hapusDataGallery($id) > 0) {
+            header('Location: ' . BASEURL . '/admin');
+            exit;
+        }
+    }
+
+    // User Management
+    public function tambahUser()
+    {
+        if ($this->model('User_model')->register($_POST) > 0) {
+            header('Location: ' . BASEURL . '/admin');
+            exit;
+        }
+    }
+
+    public function hapusUser($id)
+    {
+        if ($this->model('User_model')->hapusDataUser($id) > 0) {
+            header('Location: ' . BASEURL . '/admin');
+            exit;
+        }
+    }
+
+    public function getubahUser()
+    {
+        echo json_encode($this->model('User_model')->getUserById($_POST['id']));
+    }
+
+    public function ubahUser()
+    {
+        if ($this->model('User_model')->ubahDataUser($_POST) > 0) {
             header('Location: ' . BASEURL . '/admin');
             exit;
         }

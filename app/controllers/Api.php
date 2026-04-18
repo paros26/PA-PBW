@@ -53,7 +53,6 @@ class Api extends Controller {
 
         try {
             $this->model('JetSki_model')->ubahDataJetSki($_POST);
-            // In PDO, if data is identical, rowCount is 0, but it's not an error.
             echo json_encode(['status' => 'success']);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
@@ -141,6 +140,40 @@ class Api extends Controller {
     public function deleteGallery($id)
     {
         if ($this->model('Gallery_model')->hapusDataGallery($id) > 0) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    // User Management
+    public function users()
+    {
+        $users = $this->model('User_model')->getAllUsers();
+        echo json_encode($users);
+    }
+
+    public function addUser()
+    {
+        if ($this->model('User_model')->register($_POST) > 0) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function updateUser()
+    {
+        if ($this->model('User_model')->ubahDataUser($_POST) > 0) {
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        if ($this->model('User_model')->hapusDataUser($id) > 0) {
             echo json_encode(['status' => 'success']);
         } else {
             echo json_encode(['status' => 'error']);

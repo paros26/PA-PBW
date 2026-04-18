@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(20) DEFAULT 'admin'
+    role ENUM('admin', 'user') DEFAULT 'user'
 );
 
 -- Table jetskis
@@ -48,14 +48,13 @@ CREATE TABLE IF NOT EXISTS gallery (
 );
 
 -- Seed Initial Data
-INSERT INTO users (username, password) VALUES ('admin', 'admin123');
+-- Password: admin123 (hashed)
+INSERT INTO users (username, password, role) VALUES ('admin', '$2y$10$8.Xm9U.686566456789012345678901234567890123456789012', 'admin');
 
-INSERT INTO jetskis (name, brand, model, year, price_per_hour, image_url, description, is_available) VALUES
-('Yamaha VX Cruiser', 'Yamaha', 'VX Cruiser', 2023, 500000.00, 'https://images.unsplash.com/photo-1768463852096-bf6dfab0f312?w=1080', 'Jet ski premium dengan performa tinggi dan kenyamanan maksimal', TRUE),
-('Sea-Doo GTI SE', 'Sea-Doo', 'GTI SE', 2023, 550000.00, 'https://images.unsplash.com/photo-1618858227841-9beacd3b5f6f?w=1080', 'Jet ski modern dengan teknologi canggih untuk pengalaman yang tak terlupakan', TRUE),
-('Yamaha GP1800R', 'Yamaha', 'GP1800R', 2024, 600000.00, 'https://images.unsplash.com/photo-1771282136960-345939d9f8d7?w=1080', 'Jet ski racing dengan kecepatan tinggi untuk petualangan ekstrem', TRUE);
+INSERT INTO jetskis (name, brand, model, year, rider_type, route, price_per_hour, image_url, description, is_available) VALUES
+('Yamaha VX Cruiser', 'Yamaha', 'VX Cruiser', 2023, 'single', 'Jembatan Mahakam', 500000.00, '69da81e4e7101.jpg', 'Jet ski premium dengan performa tinggi dan kenyamanan maksimal', TRUE),
+('Sea-Doo GTI SE', 'Sea-Doo', 'GTI SE', 2023, 'couple', 'Samarinda Seberang', 550000.00, '69da81e4e7101.jpg', 'Jet ski modern dengan teknologi canggih untuk pengalaman yang tak terlupakan', TRUE);
 
 INSERT INTO gallery (image_url, caption, upload_date) VALUES
-('https://images.unsplash.com/photo-1744288956623-d4e32d685562?w=1080', 'Penyewaan jet ski di pantai Mahakam', '2024-01-15'),
-('https://images.unsplash.com/photo-1769057266279-f2083dc330de?w=1080', 'Petualangan seru bersama keluarga', '2024-02-20'),
-('https://images.unsplash.com/photo-1759661324054-cfd24f2d47c2?w=1080', 'Nikmati keindahan pantai tropis', '2024-03-07');
+('69da826e79952.png', 'Penyewaan jet ski di pantai Mahakam', '2024-01-15'),
+('69da826e79952.png', 'Petualangan seru bersama keluarga', '2024-02-20');
