@@ -314,9 +314,12 @@ function editRental(rental) {
 
 function calculateRentalPrice() {
     const jetSkiSelect = document.getElementById('rentalJetSki');
-    const duration = parseInt(document.getElementById('rentalDuration').value) || 0;
+    const durationInput = document.getElementById('rentalDuration');
+    const duration = parseInt(durationInput.value) || 0;
     const selectedOption = jetSkiSelect.options[jetSkiSelect.selectedIndex];
-    const price = selectedOption ? (parseInt(selectedOption.dataset.price) || 0) : 0;
+    
+    // Pastikan selectedOption ada dan memiliki dataset price
+    const price = (selectedOption && selectedOption.dataset.price) ? parseInt(selectedOption.dataset.price) : 0;
     
     const total = price * duration;
     document.getElementById('rentalTotalPriceDisplay').textContent = formatCurrency(total);
@@ -325,6 +328,12 @@ function calculateRentalPrice() {
 
 async function handleRentalSubmit(e) {
     e.preventDefault();
+    
+    const totalPrice = document.getElementById('rentalTotalPriceHidden').value;
+    if (!totalPrice || totalPrice == 0) {
+        showToast('Mohon pilih paket rental dan durasi yang valid', 'error');
+        return;
+    }
     
     const id = document.getElementById('rentalId').value;
     const url = id ? `${BASEURL}/api/updateRental` : `${BASEURL}/api/addRental`;

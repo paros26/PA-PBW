@@ -14,7 +14,7 @@ class Rental_model {
         // Order by: status 'deleted' at the bottom, others by date desc
         $query = 'SELECT r.*, j.name as jetski_name 
                   FROM ' . $this->table . ' r 
-                  JOIN jetskis j ON r.jetski_id = j.id 
+                  LEFT JOIN jetskis j ON r.jetski_id = j.id 
                   ORDER BY (r.status = "deleted") ASC, r.rental_date DESC';
         
         $this->db->query($query);
@@ -30,7 +30,9 @@ class Rental_model {
 
     public function tambahDataRental($data)
     {
-        if (!preg_match('/^[0-9]+$/', $data['customer_phone'])) {
+        // Bersihkan nomor telepon dari karakter non-angka
+        $phone = preg_replace('/[^0-9]/', '', $data['customer_phone']);
+        if (empty($phone)) {
             return 0;
         }
 
@@ -40,15 +42,20 @@ class Rental_model {
         $this->db->query($query);
         $this->db->bind('jetski_id', $data['jetski_id']);
         $this->db->bind('customer_name', $data['customer_name']);
-        $this->db->bind('customer_phone', $data['customer_phone']);
+        $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
         $this->db->bind('duration', $data['duration']);
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? null);
-        $this->db->bind('status', $data['status']);
+        $this->db->bind('status', $data['status'] ?? 'active');
 
-        $this->db->execute();
-        return $this->db->rowCount();
+        try {
+            $this->db->execute();
+            return $this->db->rowCount();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return 0;
+        }
     }
 
     public function hapusDataRental($id)
@@ -64,10 +71,8 @@ class Rental_model {
 
     public function ubahDataRental($data)
     {
-        if (!preg_match('/^[0-9]+$/', $data['customer_phone'])) {
-            return 0;
-        }
-
+        $phone = preg_replace('/[^0-9]/', '', $data['customer_phone']);
+        
         // Prevent modification if already deleted
         $existing = $this->getRentalById($data['id']);
         if ($existing && $existing['status'] === 'deleted') {
@@ -88,11 +93,11 @@ class Rental_model {
         $this->db->query($query);
         $this->db->bind('jetski_id', $data['jetski_id']);
         $this->db->bind('customer_name', $data['customer_name']);
-        $this->db->bind('customer_phone', $data['customer_phone']);
+        $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
         $this->db->bind('duration', $data['duration']);
         $this->db->bind('total_price', $data['total_price']);
-        $this->db->bind('payment_proof', $data['payment_proof']);
+        $this->db->bind('payment_proof', $data['payment_proof'] ?? ($existing['payment_proof'] ?? null));
         $this->db->bind('status', $data['status']);
         $this->db->bind('id', $data['id']);
 
