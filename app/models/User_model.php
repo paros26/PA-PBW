@@ -16,7 +16,8 @@ class User_model {
         $user = $this->db->single();
 
         if ($user) {
-            if ($password == $user['password']) {
+            // Check if password matches (handling both plain text for legacy and hash for new)
+            if (password_verify($password, $user['password']) || $password == $user['password']) {
                 return $user;
             }
         }
@@ -25,15 +26,14 @@ class User_model {
 
     public function register($data)
     {
-        $query = "INSERT INTO " . $this->table . " (username, password, role) VALUES (:username, :password, :role)";
-        
+        $query = "INSERT INTO users (username, password, role) VALUES (:username, :password, :role)";
         $this->db->query($query);
         $this->db->bind('username', $data['username']);
-        $this->db->bind('password', $data['password']); // Mengikuti pola asli (plain text)
+        // Hash password for security
+        $this->db->bind('password', password_hash($data['password'], PASSWORD_DEFAULT));
         $this->db->bind('role', 'user');
 
         $this->db->execute();
-
         return $this->db->rowCount();
     }
 
@@ -42,5 +42,10 @@ class User_model {
         $this->db->query('SELECT * FROM ' . $this->table . ' WHERE username = :username');
         $this->db->bind('username', $username);
         return $this->db->single();
+    }
+
+    public function cekUsername($username)
+    {
+        return $this->checkUsername($username);
     }
 }
