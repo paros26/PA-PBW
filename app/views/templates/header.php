@@ -28,7 +28,7 @@
                 <a href="<?= BASEURL; ?>/about" class="nav-link <?= ($data['active'] == 'about') ? 'active' : ''; ?>">Tentang Kami</a>
                 <a href="<?= BASEURL; ?>/catalog" class="nav-link <?= ($data['active'] == 'catalog') ? 'active' : ''; ?>">Katalog</a>
                 <a href="<?= BASEURL; ?>/gallery" class="nav-link <?= ($data['active'] == 'gallery') ? 'active' : ''; ?>">Galeri</a>
-                <a href="<?= BASEURL; ?>/login" class="btn-nav-login">Admin Login</a>
+                <a href="<?= BASEURL; ?>/login" class="btn-nav-login">Login Pengguna</a>
             </div>
         </div>
     </nav>
