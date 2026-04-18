@@ -38,11 +38,19 @@ class Api extends Controller {
     {
         $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
         $_POST['image_url'] = $image_url ?: 'default-jetski.jpg';
+        
+        // Pastikan is_available terisi (1 jika dicentang, 0 jika tidak)
+        $_POST['is_available'] = isset($_POST['is_available']) ? 1 : 0;
+        
+        // Nilai default untuk field teknis
+        $_POST['brand'] = $_POST['brand'] ?: 'JetSki';
+        $_POST['model'] = $_POST['model'] ?: 'Mahakam';
+        $_POST['year'] = $_POST['year'] ?: date('Y');
 
         if ($this->model('JetSki_model')->tambahDataJetSki($_POST) > 0) {
             echo json_encode(['status' => 'success']);
         } else {
-            echo json_encode(['status' => 'error']);
+            echo json_encode(['status' => 'error', 'message' => 'Gagal menyimpan ke database']);
         }
     }
 
@@ -50,6 +58,9 @@ class Api extends Controller {
     {
         $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
         $_POST['image_url'] = $image_url ?: $_POST['existing_image'];
+        
+        // Pastikan is_available terisi
+        $_POST['is_available'] = isset($_POST['is_available']) ? 1 : 0;
 
         try {
             $this->model('JetSki_model')->ubahDataJetSki($_POST);
