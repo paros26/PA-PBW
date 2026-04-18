@@ -29,18 +29,23 @@ class JetSki_model {
         
         $this->db->query($query);
         $this->db->bind('name', $data['name']);
-        $this->db->bind('brand', $data['brand']);
-        $this->db->bind('model', $data['model']);
-        $this->db->bind('year', $data['year']);
+        $this->db->bind('brand', $data['brand'] ?? 'JetSki');
+        $this->db->bind('model', $data['model'] ?? 'Mahakam');
+        $this->db->bind('year', $data['year'] ?? date('Y'));
         $this->db->bind('rider_type', $data['rider_type']);
         $this->db->bind('route', $data['route']);
         $this->db->bind('price_per_hour', $data['price_per_hour']);
         $this->db->bind('image_url', $data['image_url']);
         $this->db->bind('description', $data['description']);
-        $this->db->bind('is_available', $data['is_available']);
+        $this->db->bind('is_available', $data['is_available'] ?? 1);
 
-        $this->db->execute();
-        return $this->db->rowCount();
+        try {
+            $this->db->execute();
+            return $this->db->rowCount();
+        } catch (PDOException $e) {
+            error_log("Error tambahDataJetSki: " . $e->getMessage());
+            return 0;
+        }
     }
 
     public function hapusDataJetSki($id)
@@ -70,15 +75,15 @@ class JetSki_model {
         
         $this->db->query($query);
         $this->db->bind('name', $data['name']);
-        $this->db->bind('brand', $data['brand']);
-        $this->db->bind('model', $data['model']);
-        $this->db->bind('year', $data['year']);
+        $this->db->bind('brand', $data['brand'] ?? 'JetSki');
+        $this->db->bind('model', $data['model'] ?? 'Mahakam');
+        $this->db->bind('year', $data['year'] ?? date('Y'));
         $this->db->bind('rider_type', $data['rider_type']);
         $this->db->bind('route', $data['route']);
         $this->db->bind('price_per_hour', $data['price_per_hour']);
         $this->db->bind('image_url', $data['image_url']);
         $this->db->bind('description', $data['description']);
-        $this->db->bind('is_available', $data['is_available']);
+        $this->db->bind('is_available', $data['is_available'] ?? 1);
         $this->db->bind('id', $data['id']);
 
         $this->db->execute();
