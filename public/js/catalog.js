@@ -86,7 +86,7 @@ async function handleBookingSubmit(e) {
             alert(`Pemesanan Berhasil!\n\nTOKEN ANDA: ${token}\n\nHarap simpan token ini. Anda akan diarahkan ke WhatsApp untuk konfirmasi pembayaran.`);
             
             // Konfigurasi WhatsApp
-            const adminPhone = '6285388832007'; // Nomor Admin Mahakam
+            const adminPhone = '62895705081807'; // Nomor Admin Baru
             const message = `*KONFIRMASI RENTAL JETSKI MAHAKAM*\n\n` +
                           `*Token:* ${token}\n` +
                           `*Nama:* ${customerName}\n` +

@@ -9,9 +9,10 @@ class Admin extends Controller {
         }
     }
 
-    public function index()
+    public function index($tab = 'jetski')
     {
         $data['judul'] = 'Dashboard Admin - Jetski Mahakam';
+        $data['active_tab'] = $tab;
         
         // Load data for the dashboard
         $data['jetskis'] = $this->model('JetSki_model')->getAllJetSkis();
@@ -122,6 +123,7 @@ class Admin extends Controller {
     {
         echo json_encode($this->model('User_model')->getUserById($_POST['id']));
     }
+
 
     public function ubahUser()
     {

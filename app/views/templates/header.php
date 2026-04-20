@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $data['judul']; ?></title>
     <link rel="stylesheet" href="<?= BASEURL; ?>/css/styles.css?v=1.1">
+    <script>
+        const BASEURL = '<?= BASEURL; ?>';
+    </script>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="<?= BASEURL; ?>" class="logo">
-                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+            <a href="<?= BASEURL; ?>" class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
+                <img src="<?= BASEURL; ?>/../assets/img/logo jetski mahakam.jpeg" alt="Logo" style="height: 50px; width: 50px; border-radius: 4px; object-fit: cover;">
                 <span>Jetski Mahakam</span>
             </a>
 
@@ -35,7 +36,7 @@
                         <a href="<?= BASEURL; ?>/user_login/logout" class="btn-nav-login">Logout</a>
                     </div>
                 <?php else : ?>
-                    <a href="<?= BASEURL; ?>/user_login" class="btn-nav-login">Login Pelanggan</a>
+                    <a href="<?= BASEURL; ?>/user_login" class="btn-nav-login <?= ($data['active'] == 'user_login' || $data['active'] == 'login') ? 'active' : ''; ?>">Login Pelanggan</a>
                 <?php endif; ?>
             </div>
         </div>

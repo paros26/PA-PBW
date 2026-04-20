@@ -1,7 +1,7 @@
         <!-- Main Content -->
         <main class="admin-main">
             <!-- Jet Ski Management Tab -->
-            <div id="jetski-tab" class="tab-content active">
+            <div id="jetski-tab" class="tab-content <?= ($data['active_tab'] == 'jetski') ? 'active' : ''; ?>">
                 <div class="tab-header">
                     <h2>Kelola Paket Rental</h2>
                     <button class="btn btn-primary" onclick="openJetSkiModal()">
@@ -34,7 +34,7 @@
             </div>
 
             <!-- Rental Management Tab -->
-            <div id="rentals-tab" class="tab-content">
+            <div id="rentals-tab" class="tab-content <?= ($data['active_tab'] == 'rentals') ? 'active' : ''; ?>">
                 <div class="tab-header">
                     <h2>Kelola Transaksi Sewa</h2>
                     <button class="btn btn-primary" onclick="openRentalModal()">
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Income Report Tab -->
-            <div id="income-tab" class="tab-content">
+            <div id="income-tab" class="tab-content <?= ($data['active_tab'] == 'income') ? 'active' : ''; ?>">
                 <h2>Laporan Income Bulanan</h2>
 
                 <div class="income-filter">
@@ -142,7 +142,7 @@
             </div>
 
             <!-- Gallery Management Tab -->
-            <div id="gallery-tab" class="tab-content">
+            <div id="gallery-tab" class="tab-content <?= ($data['active_tab'] == 'gallery') ? 'active' : ''; ?>">
                 <div class="tab-header">
                     <h2>Kelola Galeri</h2>
                     <button class="btn btn-primary" onclick="openGalleryModal()">

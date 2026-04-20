@@ -6,6 +6,7 @@ class Catalog extends Controller {
         $data['judul'] = 'Katalog - Jetski Mahakam';
         $data['active'] = 'catalog';
         $data['jetskis'] = $this->model('JetSki_model')->getAllJetSkis();
+        $data['extra_scripts'] = ['catalog.js'];
         
         $this->view('templates/header', $data);
         $this->view('catalog/index', $data);

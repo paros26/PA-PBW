@@ -8,11 +8,9 @@
 
         <div class="login-card">
             <div class="login-header">
-                <div class="login-brand">
-                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                    <span>Jetski Mahakam</span>
+                <div class="login-brand" style="display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                    <img src="<?= BASEURL; ?>/../assets/img/logo jetski mahakam.jpeg" alt="Logo" style="height: 80px; width: 80px; border-radius: 12px; object-fit: cover; border: 2px solid var(--primary); box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                    <span style="font-size: 1.25rem; font-weight: 800; letter-spacing: 1px; color: var(--primary);">Jetski Mahakam</span>
                 </div>
                 <h1>Selamat Datang</h1>
                 <p>Masuk untuk mengelola petualangan jet ski Anda</p>

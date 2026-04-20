@@ -100,13 +100,14 @@ class Api extends Controller {
                 $_POST['total_price'] = (float)$_POST['total_price'];
             }
 
-            if ($this->model('Rental_model')->tambahDataRental($_POST) > 0) {
+            $rowCount = $this->model('Rental_model')->tambahDataRental($_POST);
+            if ($rowCount > 0) {
                 echo json_encode(['status' => 'success']);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Gagal mencatat penyewaan di database']);
+                echo json_encode(['status' => 'error', 'message' => 'Gagal mencatat penyewaan. Pastikan nomor telepon diisi dengan benar.']);
             }
         } catch (Exception $e) {
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+            echo json_encode(['status' => 'error', 'message' => 'Database Error: ' . $e->getMessage()]);
         }
     }
 

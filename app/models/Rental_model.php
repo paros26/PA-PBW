@@ -54,8 +54,7 @@ class Rental_model {
             $this->db->execute();
             return $this->db->rowCount();
         } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return 0;
+            throw new Exception($e->getMessage());
         }
     }
 

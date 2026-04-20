@@ -13,9 +13,12 @@
     <!-- Header -->
     <header class="admin-header">
         <div class="admin-header-content">
-            <div>
-                <h1>Dashboard Admin</h1>
-                <p>Jetski Mahakam Management System</p>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <img src="<?= BASEURL; ?>/../assets/img/logo jetski mahakam.jpeg" alt="Logo" style="height: 70px; width: 70px; border-radius: 8px; object-fit: cover; border: 1px solid var(--primary);">
+                <div>
+                    <h1>Dashboard Admin</h1>
+                    <p>Jetski Mahakam Management System</p>
+                </div>
             </div>
             <a href="<?= BASEURL; ?>/login_admin/logout" class="btn btn-outline" id="logoutBtn">
                 <span class="logout-icon">🚪</span> Logout
@@ -27,16 +30,16 @@
         <!-- Sidebar -->
         <aside class="admin-sidebar">
             <nav class="admin-nav">
-                <button class="admin-nav-btn active" data-tab="jetski">
+                <button class="admin-nav-btn <?= ($data['active_tab'] == 'jetski') ? 'active' : ''; ?>" data-tab="jetski">
                     <span class="nav-icon">🌊</span> Kelola Paket Rental
                 </button>
-                <button class="admin-nav-btn" data-tab="rentals">
+                <button class="admin-nav-btn <?= ($data['active_tab'] == 'rentals') ? 'active' : ''; ?>" data-tab="rentals">
                     <span class="nav-icon">📝</span> Transaksi Sewa
                 </button>
-                <button class="admin-nav-btn" data-tab="income">
+                <button class="admin-nav-btn <?= ($data['active_tab'] == 'income') ? 'active' : ''; ?>" data-tab="income">
                     <span class="nav-icon">💰</span> Laporan Income
                 </button>
-                <button class="admin-nav-btn" data-tab="gallery">
+                <button class="admin-nav-btn <?= ($data['active_tab'] == 'gallery') ? 'active' : ''; ?>" data-tab="gallery">
                     <span class="nav-icon">🖼️</span> Kelola Galeri
                 </button>
             </nav>
