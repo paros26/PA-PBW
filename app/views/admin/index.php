@@ -35,11 +35,25 @@
 
             <!-- Rental Management Tab -->
             <div id="rentals-tab" class="tab-content <?= ($data['active_tab'] == 'rentals') ? 'active' : ''; ?>">
-                <div class="tab-header">
+                <div class="tab-header" style="flex-wrap: wrap; gap: 1rem;">
                     <h2>Kelola Transaksi Sewa</h2>
-                    <button class="btn btn-primary" onclick="openRentalModal()">
-                        <span>➕</span> Tambah Transaksi
-                    </button>
+                    
+                    <div class="tab-actions" style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+                        <div class="search-box" style="position: relative; display: flex; align-items: center;">
+                            <input type="text" id="rentalSearchToken" placeholder="Cari Token..." 
+                                   style="padding: 0.6rem 1rem; border-radius: 4px; background: #222; border: 1px solid var(--border); color: white; width: 200px;">
+                            <button class="btn btn-primary" id="btnSearchToken" style="margin-left: -4px; border-radius: 0 4px 4px 0;">🔍</button>
+                        </div>
+
+                        <select id="rentalSort" style="padding: 0.6rem 1rem; border-radius: 4px; background: #222; border: 1px solid var(--border); color: white;">
+                            <option value="newest">Terbaru</option>
+                            <option value="oldest">Terlama</option>
+                        </select>
+
+                        <button class="btn btn-primary" onclick="openRentalModal()">
+                            <span>➕</span> Tambah Transaksi
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card">

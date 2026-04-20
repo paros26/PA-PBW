@@ -17,6 +17,9 @@ function initAdmin() {
     
     // Rental Management
     document.getElementById('rentalForm').addEventListener('submit', handleRentalSubmit);
+    document.getElementById('rentalSearchToken').addEventListener('input', applyRentalFiltersAndSort);
+    document.getElementById('rentalSort').addEventListener('change', applyRentalFiltersAndSort);
+    document.getElementById('btnSearchToken').addEventListener('click', applyRentalFiltersAndSort);
     
     // Income Report
     document.getElementById('generateReportBtn').addEventListener('click', generateIncomeReport);
@@ -207,50 +210,84 @@ async function loadRentals() {
     try {
         const response = await fetch(`${BASEURL}/api/rentals`);
         currentRentals = await response.json();
-        const tbody = document.getElementById('rentalsTableBody');
-        
-        if (currentRentals.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 2rem; color: #666;">Belum ada transaksi sewa</td></tr>';
-            return;
-        }
-        
-        tbody.innerHTML = currentRentals.map((rental, index) => {
-            const isDeleted = rental.status === 'deleted';
-            return `
-                <tr class="${isDeleted ? 'row-deleted' : ''}">
-                    <td>
-                        ${rental.payment_proof ? 
-                            `<img src="${BASEURL}/img/payments/${rental.payment_proof}" class="table-image" style="cursor: pointer;" onclick="viewPaymentProof('${rental.payment_proof}')">` : 
-                            '<span style="color: #999; font-size: 0.8rem;">No Proof</span>'}
-                    </td>
-                    <td><code style="background: #333; padding: 2px 5px; border-radius: 4px; color: var(--primary); font-weight: bold;">${rental.token || '-'}</code></td>
-                    <td>${rental.jetski_name}</td>
-                    <td>${rental.customer_name}</td>
-                    <td>${rental.customer_phone}</td>
-                    <td>${formatDate(rental.rental_date)}</td>
-                    <td>${rental.duration} sesi</td>
-                    <td><strong>${formatCurrency(rental.total_price)}</strong></td>
-                    <td>
-                        <span class="status-badge status-${rental.status}">
-                            ${rental.status === 'active' ? 'Aktif' : 
-                            rental.status === 'completed' ? 'Selesai' : 
-                            rental.status === 'cancelled' ? 'Dibatalkan' : 'Dihapus'}
-                        </span>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            ${!isDeleted ? `
-                                <button class="btn-icon edit" onclick="prepareEditRental(${index})">✏️</button>
-                                <button class="btn-icon delete" onclick="deleteRental('${rental.id}')">🗑️</button>
-                            ` : '<span style="color: #999; font-size: 0.8rem;">Non-editable</span>'}
-                        </div>
-                    </td>
-                </tr>
-            `;
-        }).join('');
+        applyRentalFiltersAndSort();
     } catch (error) {
         console.error('Error loading rentals:', error);
     }
+}
+
+function applyRentalFiltersAndSort() {
+    const searchToken = document.getElementById('rentalSearchToken').value.toLowerCase();
+    const sortOrder = document.getElementById('rentalSort').value;
+    
+    let filteredRentals = [...currentRentals];
+    
+    // Filter by token
+    if (searchToken) {
+        filteredRentals = filteredRentals.filter(rental => 
+            (rental.token && rental.token.toLowerCase().includes(searchToken))
+        );
+    }
+    
+    // Sort
+    filteredRentals.sort((a, b) => {
+        const dateA = new Date(a.rental_date);
+        const dateB = new Date(b.rental_date);
+        
+        if (sortOrder === 'newest') {
+            return dateB - dateA;
+        } else {
+            return dateA - dateB;
+        }
+    });
+    
+    renderRentalsTable(filteredRentals);
+}
+
+function renderRentalsTable(rentals) {
+    const tbody = document.getElementById('rentalsTableBody');
+    
+    if (rentals.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 2rem; color: #666;">Data tidak ditemukan</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = rentals.map((rental) => {
+        // Find index in currentRentals for editing
+        const originalIndex = currentRentals.findIndex(r => r.id === rental.id);
+        const isDeleted = rental.status === 'deleted';
+        return `
+            <tr class="${isDeleted ? 'row-deleted' : ''}">
+                <td>
+                    ${rental.payment_proof ? 
+                        `<img src="${BASEURL}/img/payments/${rental.payment_proof}" class="table-image" style="cursor: pointer;" onclick="viewPaymentProof('${rental.payment_proof}')">` : 
+                        '<span style="color: #999; font-size: 0.8rem;">No Proof</span>'}
+                </td>
+                <td><code style="background: #333; padding: 2px 5px; border-radius: 4px; color: var(--primary); font-weight: bold;">${rental.token || '-'}</code></td>
+                <td>${rental.jetski_name}</td>
+                <td>${rental.customer_name}</td>
+                <td>${rental.customer_phone}</td>
+                <td>${formatDate(rental.rental_date)}</td>
+                <td>${rental.duration} sesi</td>
+                <td><strong>${formatCurrency(rental.total_price)}</strong></td>
+                <td>
+                    <span class="status-badge status-${rental.status}">
+                        ${rental.status === 'active' ? 'Aktif' : 
+                        rental.status === 'completed' ? 'Selesai' : 
+                        rental.status === 'cancelled' ? 'Dibatalkan' : 'Dihapus'}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        ${!isDeleted ? `
+                            <button class="btn-icon edit" onclick="prepareEditRental(${originalIndex})">✏️</button>
+                            <button class="btn-icon delete" onclick="deleteRental('${rental.id}')">🗑️</button>
+                        ` : '<span style="color: #999; font-size: 0.8rem;">Non-editable</span>'}
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join('');
 }
 
 function prepareEditRental(index) {

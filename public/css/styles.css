@@ -287,6 +287,25 @@ h1, h2, h3 { color: var(--primary); margin-bottom: 1rem; }
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
+.tab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.tab-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-box input:focus, .tab-actions select:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+}
+
 /* Cards & Tables */
 .card {
     background: var(--card-bg);
