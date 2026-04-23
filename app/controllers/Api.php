@@ -40,8 +40,8 @@ class Api extends Controller {
             $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
             $_POST['image_url'] = $image_url ?: 'default-jetski.jpg';
             
-            // Pastikan is_available terisi (1 jika dicentang, 0 jika tidak)
-            $_POST['is_available'] = isset($_POST['is_available']) ? 1 : 0;
+            // Mengambil nilai is_available dari POST (dikirim sebagai '1' atau '0' dari JS)
+            $_POST['is_available'] = isset($_POST['is_available']) ? (int)$_POST['is_available'] : 1;
             
             // Nilai default untuk field teknis
             $_POST['brand'] = $_POST['brand'] ?: 'Yamaha';
@@ -64,8 +64,8 @@ class Api extends Controller {
             $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
             $_POST['image_url'] = $image_url ?: $_POST['existing_image'];
             
-            // Pastikan is_available terisi
-            $_POST['is_available'] = isset($_POST['is_available']) ? 1 : 0;
+            // Mengambil nilai is_available dari POST
+            $_POST['is_available'] = isset($_POST['is_available']) ? (int)$_POST['is_available'] : 1;
 
             $this->model('JetSki_model')->ubahDataJetSki($_POST);
             echo json_encode(['status' => 'success']);
@@ -100,11 +100,16 @@ class Api extends Controller {
                 $_POST['total_price'] = (float)$_POST['total_price'];
             }
 
+            // Map 'duration' to 'sesi' if 'sesi' is not present (for backward compatibility if needed)
+            if (!isset($_POST['sesi']) && isset($_POST['duration'])) {
+                $_POST['sesi'] = $_POST['duration'];
+            }
+
             $rowCount = $this->model('Rental_model')->tambahDataRental($_POST);
             if ($rowCount > 0) {
                 echo json_encode(['status' => 'success']);
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Gagal mencatat penyewaan. Pastikan nomor telepon diisi dengan benar.']);
+                echo json_encode(['status' => 'error', 'message' => 'Gagal mencatat penyewaan. Pastikan semua data terisi dengan benar.']);
             }
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => 'Database Error: ' . $e->getMessage()]);
@@ -113,13 +118,22 @@ class Api extends Controller {
 
     public function updateRental()
     {
-        $payment_proof = $this->uploadImage($_FILES['payment_proof'] ?? null, 'payments');
-        $_POST['payment_proof'] = $payment_proof ?: ($_POST['existing_payment_proof'] ?? '');
+        try {
+            $payment_proof = $this->uploadImage($_FILES['payment_proof'] ?? null, 'payments');
+            $_POST['payment_proof'] = $payment_proof ?: ($_POST['existing_payment_proof'] ?? '');
 
-        if ($this->model('Rental_model')->ubahDataRental($_POST) > 0) {
-            echo json_encode(['status' => 'success']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Gagal mengubah data atau format telepon salah']);
+            // Map 'duration' to 'sesi' if 'sesi' is not present
+            if (!isset($_POST['sesi']) && isset($_POST['duration'])) {
+                $_POST['sesi'] = $_POST['duration'];
+            }
+
+            if ($this->model('Rental_model')->ubahDataRental($_POST) > 0) {
+                echo json_encode(['status' => 'success']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Gagal mengubah data atau format telepon salah']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => 'Database Error: ' . $e->getMessage()]);
         }
     }
 

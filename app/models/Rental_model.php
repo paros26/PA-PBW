@@ -11,7 +11,6 @@ class Rental_model {
 
     public function getAllRentals()
     {
-        // Order by: status 'deleted' at the bottom, others by date desc
         $query = 'SELECT r.*, j.name as jetski_name 
                   FROM ' . $this->table . ' r 
                   LEFT JOIN jetskis j ON r.jetski_id = j.id 
@@ -30,21 +29,18 @@ class Rental_model {
 
     public function tambahDataRental($data)
     {
-        // Bersihkan nomor telepon dari karakter non-angka
         $phone = preg_replace('/[^0-9]/', '', $data['customer_phone']);
-        if (empty($phone)) {
-            return 0;
-        }
+        if (empty($phone)) return 0;
 
-        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, duration, total_price, payment_proof, status, token) 
-                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :duration, :total_price, :payment_proof, :status, :token)";
+        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, sesi, total_price, payment_proof, status, token) 
+                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :sesi, :total_price, :payment_proof, :status, :token)";
         
         $this->db->query($query);
         $this->db->bind('jetski_id', $data['jetski_id']);
         $this->db->bind('customer_name', $data['customer_name']);
         $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
-        $this->db->bind('duration', $data['duration']);
+        $this->db->bind('sesi', $data['sesi']); 
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? null);
         $this->db->bind('status', $data['status'] ?? 'active');
@@ -58,33 +54,18 @@ class Rental_model {
         }
     }
 
-    public function hapusDataRental($id)
-    {
-        // Soft delete: update status to 'deleted' instead of actual delete
-        $query = "UPDATE rentals SET status = 'deleted' WHERE id = :id";
-        $this->db->query($query);
-        $this->db->bind('id', $id);
-
-        $this->db->execute();
-        return $this->db->rowCount();
-    }
-
     public function ubahDataRental($data)
     {
         $phone = preg_replace('/[^0-9]/', '', $data['customer_phone']);
-        
-        // Prevent modification if already deleted
         $existing = $this->getRentalById($data['id']);
-        if ($existing && $existing['status'] === 'deleted') {
-            return 0;
-        }
+        if ($existing && $existing['status'] === 'deleted') return 0;
 
         $query = "UPDATE rentals SET 
                     jetski_id = :jetski_id,
                     customer_name = :customer_name,
                     customer_phone = :customer_phone,
                     rental_date = :rental_date,
-                    duration = :duration,
+                    sesi = :sesi, 
                     total_price = :total_price,
                     payment_proof = :payment_proof,
                     status = :status,
@@ -96,13 +77,22 @@ class Rental_model {
         $this->db->bind('customer_name', $data['customer_name']);
         $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
-        $this->db->bind('duration', $data['duration']);
+        $this->db->bind('sesi', $data['sesi']); 
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? ($existing['payment_proof'] ?? null));
         $this->db->bind('status', $data['status']);
         $this->db->bind('token', $data['token'] ?? ($existing['token'] ?? null));
         $this->db->bind('id', $data['id']);
 
+        $this->db->execute();
+        return $this->db->rowCount();
+    }
+
+    public function hapusDataRental($id)
+    {
+        $query = "UPDATE rentals SET status = 'deleted' WHERE id = :id";
+        $this->db->query($query);
+        $this->db->bind('id', $id);
         $this->db->execute();
         return $this->db->rowCount();
     }

@@ -38,24 +38,6 @@
                 </div>
             </div>
 
-            <!-- Vision & Mission -->
-            <div class="vision-mission-section">
-                <div class="vision-card">
-                    <div class="v-m-icon">🎯</div>
-                    <h3>Visi Kami</h3>
-                    <p>Menjadi pionir wisata air modern di Kalimantan yang mengedepankan inovasi, keselamatan, dan keberlanjutan lingkungan sungai.</p>
-                </div>
-                <div class="mission-card">
-                    <div class="v-m-icon">🚀</div>
-                    <h3>Misi Kami</h3>
-                    <ul class="mission-list">
-                        <li>Menghadirkan armada jet ski terbaru dengan perawatan rutin.</li>
-                        <li>Membangun ekosistem wisata sungai yang aman dan profesional.</li>
-                        <li>Mempromosikan potensi wisata Sungai Mahakam ke tingkat nasional.</li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- Contact & Location Section -->
             <div class="contact-section">
                 <div class="section-header">

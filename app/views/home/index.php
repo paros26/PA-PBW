@@ -61,13 +61,7 @@
                     <p>Pilihan durasi sewa yang fleksibel mulai dari 1 jam dengan proses booking instan.</p>
                 </div>
 
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper">
-                        <span class="feature-icon">⭐</span>
-                    </div>
-                    <h3>Lokasi Strategis</h3>
-                    <p>Akses mudah di tepian Mahakam dengan fasilitas ruang tunggu yang nyaman.</p>
-                </div>
+
             </div>
         </div>
     </section>

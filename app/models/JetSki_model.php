@@ -15,6 +15,12 @@ class JetSki_model {
         return $this->db->resultSet();
     }
 
+    public function getActiveJetSkis()
+    {
+        $this->db->query('SELECT * FROM ' . $this->table . ' WHERE is_available = 1');
+        return $this->db->resultSet();
+    }
+
     public function getJetSkiById($id)
     {
         $this->db->query('SELECT * FROM ' . $this->table . ' WHERE id=:id');
