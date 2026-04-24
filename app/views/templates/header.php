@@ -16,7 +16,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="<?= BASEURL; ?>" class="logo" style="display: flex; align-items: center; gap: 0.75rem;">
-                <img src="<?= BASEURL; ?>/../assets/img/logo jetski mahakam.jpeg" alt="Logo" style="height: 50px; width: 50px; border-radius: 4px; object-fit: cover;">
+                <img src="<?= BASEURL; ?>/assets/img/logo jetski mahakam.jpeg" alt="Logo" style="height: 50px; width: 50px; border-radius: 4px; object-fit: cover;">
                 <span>Jetski Mahakam</span>
             </a>
 
@@ -43,3 +43,4 @@
             </div>
         </div>
     </nav>
+

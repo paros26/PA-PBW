@@ -9,6 +9,7 @@ const app = createApp({
             rentals: [],
             gallery: [],
             rentalSearchToken: '',
+            gallerySearchToken: '',
             rentalSortOrder: 'newest',
             reportYear: new Date().getFullYear(),
             reportMonth: new Date().getMonth().toString(),
@@ -32,14 +33,32 @@ const app = createApp({
                 );
             }
             result.sort((a, b) => {
-                if (this.rentalSortOrder === 'newest') return new Date(b.rental_date) - new Date(a.rental_date);
-                if (this.rentalSortOrder === 'oldest') return new Date(a.rental_date) - new Date(b.rental_date);
+                // FORCE: Status 'deleted' harus selalu di paling bawah
+                const aIsDeleted = a.status === 'deleted';
+                const bIsDeleted = b.status === 'deleted';
+                
+                if (aIsDeleted && !bIsDeleted) return 1;
+                if (!aIsDeleted && bIsDeleted) return -1;
+                
+                // Jika keduanya deleted atau keduanya tidak deleted, baru gunakan filter user
+                if (this.rentalSortOrder === 'newest') return b.id - a.id;
+                if (this.rentalSortOrder === 'oldest') return a.id - b.id;
                 if (this.rentalSortOrder === 'name_asc') return a.customer_name.localeCompare(b.customer_name);
                 if (this.rentalSortOrder === 'name_desc') return b.customer_name.localeCompare(a.customer_name);
                 if (this.rentalSortOrder === 'price_high') return parseFloat(b.total_price) - parseFloat(a.total_price);
                 if (this.rentalSortOrder === 'price_low') return parseFloat(a.total_price) - parseFloat(b.total_price);
                 return 0;
             });
+            return result;
+        },
+        filteredGallery() {
+            let result = [...this.gallery];
+            if (this.gallerySearchToken) {
+                const search = this.gallerySearchToken.toLowerCase();
+                result = result.filter(item => 
+                    item.caption && item.caption.toLowerCase().includes(search)
+                );
+            }
             return result;
         },
         reportMonthName() {

@@ -479,28 +479,70 @@
         @media (max-width: 992px) {
             .admin-sidebar {
                 transform: translateX(-100%);
+                position: fixed;
             }
-            .admin-sidebar.show {
+            .admin-sidebar.active {
                 transform: translateX(0);
             }
             .admin-main-wrapper {
                 margin-left: 0;
             }
+            
+            /* Sidebar Overlay */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(4px);
+                z-index: 998;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
         }
     </style>
+    <script>
+        function toggleAdminSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const btnIcon = document.querySelector('#toggleSidebar i');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            if(sidebar.classList.contains('active')) {
+                if(btnIcon) btnIcon.classList.replace('bi-list', 'bi-x-lg');
+            } else {
+                if(btnIcon) btnIcon.classList.replace('bi-x-lg', 'bi-list');
+            }
+        }
+    </script>
 </head>
 <body>
     <div id="adminApp">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleAdminSidebar()"></div>
+
         <!-- Sidebar -->
         <aside class="admin-sidebar" id="sidebar">
-            <div class="sidebar-brand d-flex align-items-center gap-3">
-                <div class="brand-logo" style="width: 45px; height: 45px; background: var(--primary-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
-                    <i class="bi bi-water text-white fs-4"></i>
+            <div class="sidebar-brand d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="brand-logo" style="width: 45px; height: 45px; background: var(--primary-gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-water text-white fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">MAHAKAM</h5>
+                        <span class="x-small text-primary fw-bold tracking-widest" style="font-size: 0.65rem; letter-spacing: 2px;">ADMIN DASHBOARD</span>
+                    </div>
                 </div>
-                <div>
-                    <h5 class="mb-0 fw-bold">MAHAKAM</h5>
-                    <span class="x-small text-primary fw-bold tracking-widest" style="font-size: 0.65rem; letter-spacing: 2px;">ADMIN DASHBOARD</span>
-                </div>
+                <!-- Close Button for Mobile -->
+                <button class="btn d-lg-none text-white p-0" onclick="toggleAdminSidebar()">
+                    <i class="bi bi-x-lg fs-4"></i>
+                </button>
             </div>
             
             <nav class="nav flex-column mt-4">
@@ -529,13 +571,13 @@
         <div class="admin-main-wrapper">
             <!-- Top Navbar -->
             <header class="top-navbar d-flex justify-content-between align-items-center">
-                <button class="btn btn-dark d-lg-none border-secondary" id="toggleSidebar">
+                <button class="btn btn-dark d-lg-none border-secondary" id="toggleSidebar" onclick="toggleAdminSidebar()">
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 
-                <div class="d-none d-md-flex align-items-center gap-2 text-muted small">
+                <div class="d-none d-md-flex align-items-center gap-2 text-white small">
                     <i class="bi bi-calendar3"></i>
-                    <span><?= date('l, d F Y'); ?></span>
+                    <span class="fw-bold"><?= date('l, d F Y'); ?></span>
                 </div>
 
                 <div class="user-profile d-flex align-items-center gap-3">

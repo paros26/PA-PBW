@@ -19,7 +19,7 @@
                         <div class="catalog-content">
                             <div class="package-meta">
                                 <span class="rider-badge">
-                                    <?= ($jetSki['rider_type'] == 'single') ? '👤 Single Rider' : '👥 Couple Rider'; ?>
+                                    <?= ($jetSki['rider_type'] == 'single') ? 'Single Rider' : 'Couple Rider'; ?>
                                 </span>
                             </div>
                             <h3 class="catalog-title"><?= $jetSki['name']; ?></h3>
@@ -31,8 +31,6 @@
                                 <p style="color: #eee; font-size: 0.95rem;"><?= $jetSki['route'] ?: 'Rute menyesuaikan'; ?></p>
                             </div>
 
-                            <p class="catalog-description"><?= $jetSki['description']; ?></p>
-                            
                             <div class="catalog-price">
                                 <p class="catalog-price-label">Harga Paket</p>
                                 <p class="catalog-price-amount">
@@ -84,7 +82,7 @@
 
                 <div class="form-group">
                     <label for="customer_name">Nama Lengkap *</label>
-                    <input type="text" id="customer_name" name="customer_name" placeholder="Masukkan nama Anda" required>
+                    <input type="text" id="customer_name" name="customer_name" placeholder="Masukkan nama Anda" minlength="3" required>
                 </div>
 
                 <div class="form-group">
@@ -97,11 +95,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="rental_date">Tanggal Sewa *</label>
-                        <input type="date" id="rental_date" name="rental_date" required>
+                        <input type="date" id="rental_date" name="rental_date" :min="new Date().toISOString().split('T')[0]" required>
                     </div>
                     <div class="form-group">
                         <label for="duration">Jumlah Sesi *</label>
-                        <input type="number" id="duration" name="duration" min="1" value="1" required>
+                        <input type="number" id="duration" name="sesi" min="1" max="5" value="1" required>
                     </div>
                 </div>
 

@@ -1,3 +1,4 @@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <div class="login-wrapper">
         <!-- Decorative Background -->
         <div class="login-bg-shapes">
@@ -62,7 +63,7 @@
 
                 <div class="input-group">
                     <label for="password">Password</label>
-                    <div class="input-field">
+                    <div class="input-field position-relative">
                         <div class="input-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -70,8 +71,25 @@
                             </svg>
                         </div>
                         <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('password', this)" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #666; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; z-index: 10;">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
                     </div>
                 </div>
+
+                <script>
+                    function togglePassword(inputId, btn) {
+                        const input = document.getElementById(inputId);
+                        const icon = btn.querySelector('i');
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            icon.classList.replace('bi-eye-fill', 'bi-eye-slash-fill');
+                        } else {
+                            input.type = 'password';
+                            icon.classList.replace('bi-eye-slash-fill', 'bi-eye-fill');
+                        }
+                    }
+                </script>
 
                 <button type="submit" class="btn-login-submit">
                     <span>Masuk ke Akun</span>

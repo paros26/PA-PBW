@@ -30,7 +30,7 @@ function openBookingModal(jetSki) {
     currentJetSkiPrice = parseInt(jetSki.price_per_hour);
     
     // Update display with rider type and route
-    const riderText = jetSki.rider_type === 'single' ? '👤 Single Rider' : '👥 Couple Rider';
+    const riderText = jetSki.rider_type === 'single' ? 'Single Rider' : 'Couple Rider';
     const detailText = `${riderText} | 📍 ${jetSki.route || 'Rute menyesuaikan'}`;
     
     const detailElement = document.getElementById('bookingPackageDetails');
@@ -45,7 +45,15 @@ function openBookingModal(jetSki) {
 }
 
 function updateBookingPrice() {
-    const duration = parseInt(document.getElementById('duration').value) || 0;
+    let durationInput = document.getElementById('duration');
+    let duration = parseInt(durationInput.value) || 0;
+    
+    if (duration > 5) {
+        alert('Maaf, maksimal pemesanan adalah 5 sesi.');
+        duration = 5;
+        durationInput.value = 5;
+    }
+    
     const total = currentJetSkiPrice * duration;
     
     document.getElementById('bookingTotalPriceDisplay').textContent = formatCurrency(total);

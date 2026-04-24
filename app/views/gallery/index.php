@@ -18,24 +18,5 @@
                     </div>
                 <?php endforeach; ?>
             </div>
-
-            <!-- Info Section -->
-            <div class="card stats-card">
-                <h2 class="section-title">Pengalaman Pelanggan Kami</h2>
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number">500+</div>
-                        <p>Pelanggan Puas</p>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">3</div>
-                        <p>Unit Jet Ski Premium</p>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">100%</div>
-                        <p>Tingkat Keamanan</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </main>

@@ -14,7 +14,7 @@ class Rental_model {
         $query = 'SELECT r.*, j.name as jetski_name 
                   FROM ' . $this->table . ' r 
                   LEFT JOIN jetskis j ON r.jetski_id = j.id 
-                  ORDER BY (r.status = "deleted") ASC, r.rental_date DESC';
+                  ORDER BY (r.status = "deleted") ASC, r.id DESC';
         
         $this->db->query($query);
         return $this->db->resultSet();
@@ -32,15 +32,15 @@ class Rental_model {
         $phone = preg_replace('/[^0-9]/', '', $data['customer_phone']);
         if (empty($phone)) return 0;
 
-        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, sesi, total_price, payment_proof, status, token) 
-                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :sesi, :total_price, :payment_proof, :status, :token)";
+        $query = "INSERT INTO rentals (jetski_id, customer_name, customer_phone, rental_date, duration, total_price, payment_proof, status, token) 
+                  VALUES (:jetski_id, :customer_name, :customer_phone, :rental_date, :duration, :total_price, :payment_proof, :status, :token)";
         
         $this->db->query($query);
         $this->db->bind('jetski_id', $data['jetski_id']);
         $this->db->bind('customer_name', $data['customer_name']);
         $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
-        $this->db->bind('sesi', $data['sesi']); 
+        $this->db->bind('duration', $data['sesi']); 
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? null);
         $this->db->bind('status', $data['status'] ?? 'active');
@@ -65,7 +65,7 @@ class Rental_model {
                     customer_name = :customer_name,
                     customer_phone = :customer_phone,
                     rental_date = :rental_date,
-                    sesi = :sesi, 
+                    duration = :duration, 
                     total_price = :total_price,
                     payment_proof = :payment_proof,
                     status = :status,
@@ -77,7 +77,7 @@ class Rental_model {
         $this->db->bind('customer_name', $data['customer_name']);
         $this->db->bind('customer_phone', $phone);
         $this->db->bind('rental_date', $data['rental_date']);
-        $this->db->bind('sesi', $data['sesi']); 
+        $this->db->bind('duration', $data['sesi']); 
         $this->db->bind('total_price', $data['total_price']);
         $this->db->bind('payment_proof', $data['payment_proof'] ?? ($existing['payment_proof'] ?? null));
         $this->db->bind('status', $data['status']);

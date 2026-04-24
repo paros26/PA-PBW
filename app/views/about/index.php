@@ -15,7 +15,7 @@
             <!-- Profile Section with Image -->
             <div class="about-split">
                 <div class="about-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800" alt="Tim Mahakam JetSki" class="about-img">
+                    <img src="<?= BASEURL; ?>/assets/img/gambar tempat jetski.png" alt="Lokasi Mahakam JetSki" class="about-img">
                     <div class="experience-badge">
                         <span class="years">4+</span>
                         <span class="text">Tahun<br>Pengalaman</span>

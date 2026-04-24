@@ -34,9 +34,58 @@ class Api extends Controller {
         return null;
     }
 
+    private function validate($data, $rules)
+    {
+        $errors = [];
+        foreach ($rules as $field => $rule) {
+            $value = $data[$field] ?? '';
+            
+            if (strpos($rule, 'required') !== false && empty($value)) {
+                $errors[] = "Field $field wajib diisi.";
+                continue;
+            }
+
+            if (strpos($rule, 'numeric') !== false && !is_numeric($value)) {
+                $errors[] = "Field $field harus berupa angka.";
+            }
+
+            if (strpos($rule, 'phone') !== false && !preg_match('/^[0-9]{10,13}$/', $value)) {
+                $errors[] = "Format nomor telepon tidak valid (harus 10-13 digit angka).";
+            }
+
+            if (strpos($rule, 'min:') !== false) {
+                preg_match('/min:([0-9]+)/', $rule, $matches);
+                $min = $matches[1];
+                if (strlen($value) < $min) {
+                    $errors[] = "Field $field minimal $min karakter.";
+                }
+            }
+
+            if (strpos($rule, 'max:') !== false) {
+                preg_match('/max:([0-9]+)/', $rule, $matches);
+                $max = $matches[1];
+                if ((int)$value > $max) {
+                    $errors[] = "Field $field maksimal $max sesi.";
+                }
+            }
+        }
+        return $errors;
+    }
+
     public function addJetski()
     {
         try {
+            $rules = [
+                'name' => 'required|min:3',
+                'price_per_hour' => 'required|numeric',
+                'route' => 'required'
+            ];
+            $errors = $this->validate($_POST, $rules);
+            if (!empty($errors)) {
+                echo json_encode(['status' => 'error', 'message' => implode(' ', $errors)]);
+                return;
+            }
+
             $image_url = $this->uploadImage($_FILES['image_file'] ?? null, 'jetski');
             $_POST['image_url'] = $image_url ?: 'default-jetski.jpg';
             
@@ -92,17 +141,29 @@ class Api extends Controller {
     public function addRental()
     {
         try {
+            // Map 'duration' to 'sesi' if 'sesi' is not present (for backward compatibility)
+            if (!isset($_POST['sesi']) && isset($_POST['duration'])) {
+                $_POST['sesi'] = $_POST['duration'];
+            }
+
+            $rules = [
+                'customer_name' => 'required|min:3',
+                'customer_phone' => 'required|phone',
+                'rental_date' => 'required',
+                'sesi' => 'required|numeric|max:5'
+            ];
+            $errors = $this->validate($_POST, $rules);
+            if (!empty($errors)) {
+                echo json_encode(['status' => 'error', 'message' => implode(' ', $errors)]);
+                return;
+            }
+
             $payment_proof = $this->uploadImage($_FILES['payment_proof'] ?? null, 'payments');
             $_POST['payment_proof'] = $payment_proof;
             
             // Konversi total_price ke float untuk keamanan database
             if (isset($_POST['total_price'])) {
                 $_POST['total_price'] = (float)$_POST['total_price'];
-            }
-
-            // Map 'duration' to 'sesi' if 'sesi' is not present (for backward compatibility if needed)
-            if (!isset($_POST['sesi']) && isset($_POST['duration'])) {
-                $_POST['sesi'] = $_POST['duration'];
             }
 
             $rowCount = $this->model('Rental_model')->tambahDataRental($_POST);

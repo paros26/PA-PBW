@@ -1,3 +1,4 @@
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
         :root {
             --primary: #f97316; /* Orange dari logo/aksen sebelumnya */
@@ -177,8 +178,27 @@
 
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <div style="position: relative;">
+                        <input type="password" id="password" name="password" placeholder="••••••••" required style="padding-right: 45px;">
+                        <button type="button" onclick="togglePassword('password', this)" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #64748b; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                    </div>
                 </div>
+
+                <script>
+                    function togglePassword(inputId, btn) {
+                        const input = document.getElementById(inputId);
+                        const icon = btn.querySelector('i');
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            icon.classList.replace('bi-eye-fill', 'bi-eye-slash-fill');
+                        } else {
+                            input.type = 'password';
+                            icon.classList.replace('bi-eye-slash-fill', 'bi-eye-fill');
+                        }
+                    }
+                </script>
 
                 <button type="submit" class="btn-login">Login</button>
             </form>

@@ -26,7 +26,7 @@
                 <div class="stat-icon" style="background: rgba(25, 135, 84, 0.1); color: #198754;"><i class="bi bi-currency-dollar"></i></div>
                 <div>
                     <h6 class="text-muted mb-1 small uppercase">Income Bulan Ini</h6>
-                    <h3 class="mb-0 fw-bold">{{ formatCurrency(totalIncome) }}</h3>
+                    <h3 class="mb-0 fw-bold text-success">{{ formatCurrency(totalIncome) }}</h3>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;"><i class="bi bi-images"></i></div>
                 <div>
                     <h6 class="text-muted mb-1 small uppercase">Foto Galeri</h6>
-                    <h3 class="mb-0 fw-bold">{{ gallery.length }}</h3>
+                    <h3 class="mb-0 fw-bold text-white">{{ gallery.length }}</h3>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                             <td>
                                 <div class="small">
                                     <div class="text-white mb-1"><i class="bi bi-geo-alt me-1 text-primary"></i> {{ jetSki.route }}</div>
-                                    <span class="text-primary fw-medium">{{ jetSki.rider_type === 'single' ? '👤 Single Rider' : '👥 Couple Rider' }}</span>
+                                    <span class="text-primary fw-medium">{{ jetSki.rider_type === 'single' ? 'Single Rider' : 'Couple Rider' }}</span>
                                 </div>
                             </td>
                             <td><span class="h6 mb-0 fw-bold text-success">{{ formatCurrency(jetSki.price_per_hour) }}</span></td>
@@ -111,8 +111,8 @@
             </div>
             <div class="d-flex gap-2">
                 <div class="search-group position-relative">
-                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
-                    <input type="text" class="form-control ps-5 rounded-pill border-secondary bg-dark text-white" v-model="rentalSearchToken" placeholder="Cari token..." style="width: 200px;">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary"></i>
+                    <input type="text" class="form-control ps-5 rounded-pill border-secondary bg-dark text-white" v-model="rentalSearchToken" placeholder="Cari token atau nama..." style="width: 250px;">
                 </div>
                 <div class="sort-group">
                     <select class="form-select rounded-pill border-secondary bg-dark text-white px-4" v-model="rentalSortOrder" style="width: 180px;">
@@ -225,7 +225,7 @@
                     <div class="card-body p-4 d-flex flex-column justify-content-center text-center">
                         <div class="mb-3"><div class="mx-auto bg-white bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;"><i class="bi bi-wallet2 fs-2 text-white"></i></div></div>
                         <h6 class="text-uppercase opacity-75 small fw-bold mb-1">Total Income</h6>
-                        <h2 class="fw-bold mb-3">{{ formatCurrency(totalIncome) }}</h2>
+                        <h2 class="fw-bold mb-3 text-warning">{{ formatCurrency(totalIncome) }}</h2>
                         <div class="badge bg-black bg-opacity-25 rounded-pill py-2 px-3 small">{{ reportMonthName }} {{ reportYear }}</div>
                     </div>
                 </div>
@@ -235,18 +235,24 @@
 
     <!-- Gallery Tab -->
     <div id="gallery-tab" class="tab-content <?= ($data['active_tab'] == 'gallery') ? 'active' : ''; ?>">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
             <div>
                 <h2 class="h3 fw-bold mb-1 text-white">Galeri Dokumentasi</h2>
                 <p class="text-muted small">Kelola foto-foto kegiatan dan testimoni di Pantai Mahakam.</p>
             </div>
-            <button class="btn btn-primary rounded-pill px-4" @click="openGalleryModal()">
-                <i class="bi bi-upload me-2"></i> Unggah Foto Baru
-            </button>
+            <div class="d-flex gap-2">
+                <div class="search-group position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-primary"></i>
+                    <input type="text" class="form-control ps-5 rounded-pill border-secondary bg-dark text-white" v-model="gallerySearchToken" placeholder="Cari caption..." style="width: 200px;">
+                </div>
+                <button class="btn btn-primary rounded-pill px-4" @click="openGalleryModal()">
+                    <i class="bi bi-upload me-2"></i> Unggah Foto Baru
+                </button>
+            </div>
         </div>
         
         <div class="row g-4">
-            <div v-for="item in gallery" :key="item.id" class="col-md-4 col-xl-3">
+            <div v-for="item in filteredGallery" :key="item.id" class="col-md-4 col-xl-3">
                 <div class="card h-100 border-0 shadow-sm overflow-hidden bg-dark">
                     <img :src="BASEURL + '/img/gallery/' + item.image_url" class="card-img-top" 
                          style="height: 200px; object-fit: cover; border-bottom: 1px solid var(--border);"
@@ -312,7 +318,7 @@
                                 <label>Identitas Paket</label>
                                 <div class="field-container">
                                     <i class="bi bi-tag field-icon"></i>
-                                    <input type="text" name="name" v-model="formJetSki.name" placeholder="Masukkan nama armada/paket..." required>
+                                    <input type="text" name="name" v-model="formJetSki.name" placeholder="Masukkan nama armada/paket..." minlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -336,7 +342,7 @@
                                 <label>Investasi (IDR)</label>
                                 <div class="field-container">
                                     <span class="text-primary fw-bold small">Rp</span>
-                                    <input type="number" name="price_per_hour" v-model="formJetSki.price_per_hour" placeholder="0" required>
+                                    <input type="number" name="price_per_hour" v-model="formJetSki.price_per_hour" placeholder="0" min="1000" required>
                                 </div>
                             </div>
                         </div>
@@ -348,17 +354,6 @@
                                 <div class="field-container">
                                     <i class="bi bi-signpost-2 field-icon"></i>
                                     <input type="text" name="route" v-model="formJetSki.route" placeholder="Contoh: Dermaga - Jembatan Mahakam IV" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Deskripsi -->
-                        <div class="col-12">
-                            <div class="floating-field">
-                                <label>Deskripsi & Layanan</label>
-                                <div class="field-container align-items-start">
-                                    <i class="bi bi-text-left field-icon mt-1"></i>
-                                    <textarea name="description" v-model="formJetSki.description" rows="2" placeholder="Apa saja fasilitas yang didapat?"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -456,7 +451,7 @@
                                 <label>Identitas Pelanggan</label>
                                 <div class="field-container">
                                     <i class="bi bi-person field-icon"></i>
-                                    <input type="text" name="customer_name" v-model="formRental.customer_name" placeholder="Nama lengkap pelanggan..." required>
+                                    <input type="text" name="customer_name" v-model="formRental.customer_name" placeholder="Nama lengkap pelanggan..." minlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -467,7 +462,7 @@
                                 <label>Kontak WhatsApp</label>
                                 <div class="field-container">
                                     <i class="bi bi-whatsapp field-icon"></i>
-                                    <input type="text" name="customer_phone" v-model="formRental.customer_phone" placeholder="08xxxxxxxxxx" required>
+                                    <input type="text" name="customer_phone" v-model="formRental.customer_phone" placeholder="08xxxxxxxxxx" pattern="[0-9]{10,13}" title="Nomor WhatsApp harus 10-13 digit angka" required>
                                 </div>
                             </div>
                         </div>
@@ -478,7 +473,7 @@
                                 <label>Tanggal Sewa</label>
                                 <div class="field-container">
                                     <i class="bi bi-calendar-event field-icon"></i>
-                                    <input type="date" name="rental_date" v-model="formRental.rental_date" required>
+                                    <input type="date" name="rental_date" v-model="formRental.rental_date" :min="new Date().toISOString().split('T')[0]" required>
                                 </div>
                             </div>
                         </div>
@@ -488,7 +483,7 @@
                                 <label>Durasi (Sesi)</label>
                                 <div class="field-container">
                                     <i class="bi bi-clock-history field-icon"></i>
-                                    <input type="number" name="sesi" v-model="formRental.sesi" min="1" placeholder="1" required>
+                                    <input type="number" name="sesi" v-model="formRental.sesi" min="1" max="5" placeholder="1" required>
                                 </div>
                             </div>
                         </div>

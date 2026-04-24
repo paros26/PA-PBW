@@ -27,44 +27,7 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Keunggulan <span class="text-primary">Mahakam JetSki</span></h2>
-                <div class="section-divider"></div>
-                <p class="section-subtitle">Kami berkomitmen memberikan pengalaman terbaik bagi setiap pelanggan kami.</p>
-            </div>
 
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper">
-                        <span class="feature-icon">🌊</span>
-                    </div>
-                    <h3>Armada Modern</h3>
-                    <p>Unit jet ski keluaran terbaru dengan performa mesin yang selalu terjaga prima.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper">
-                        <span class="feature-icon">🛡️</span>
-                    </div>
-                    <h3>Keamanan Utama</h3>
-                    <p>Prosedur keamanan ketat, pelampung standar internasional, dan instruktur siaga.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon-wrapper">
-                        <span class="feature-icon">⏰</span>
-                    </div>
-                    <h3>Sewa Fleksibel</h3>
-                    <p>Pilihan durasi sewa yang fleksibel mulai dari 1 jam dengan proses booking instan.</p>
-                </div>
-
-
-            </div>
-        </div>
-    </section>
 
     <!-- Weather Section -->
     <section class="weather-forecast" id="weather">
@@ -94,7 +57,7 @@
             </div>
             <div class="cta-actions">
                 <a href="<?= BASEURL; ?>/catalog" class="btn btn-primary btn-lg">Pesan Unit Sekarang</a>
-                <a href="https://wa.me/628123456789" class="btn btn-outline btn-lg">Konsultasi Admin</a>
+                <a href="https://wa.me/628123456789" class="btn btn-outline btn-lg">Kontak Admin</a>
             </div>
         </div>
     </section>

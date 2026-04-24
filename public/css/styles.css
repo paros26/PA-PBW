@@ -21,6 +21,7 @@ body {
     line-height: 1.6;
     color: var(--text);
     background-color: var(--black);
+    overflow-x: hidden;
 }
 
 /* Typography */
@@ -39,6 +40,7 @@ h1, h2, h3 { color: var(--primary); margin-bottom: 1rem; }
     top: 0;
     z-index: 1000;
     transition: all 0.3s ease;
+    width: 100%;
 }
 
 .navbar.scrolled {
@@ -55,6 +57,7 @@ h1, h2, h3 { color: var(--primary); margin-bottom: 1rem; }
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative; /* Penting untuk posisi menu mobile */
 }
 
 /* Logo Styling */
@@ -156,6 +159,18 @@ h1, h2, h3 { color: var(--primary); margin-bottom: 1rem; }
     border-radius: 2px;
 }
 
+.mobile-menu-btn.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-menu-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-btn.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
 /* Button Customization */
 .btn-nav-login {
     padding: 0.6rem 1.5rem;
@@ -181,33 +196,44 @@ h1, h2, h3 { color: var(--primary); margin-bottom: 1rem; }
 /* Mobile Responsiveness */
 @media (max-width: 992px) {
     .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 80%;
-        max-width: 300px;
-        height: 100vh;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: none;
+        height: auto;
+        max-height: 0;
         background: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(20px);
         flex-direction: column;
-        justify-content: center;
-        padding: 2rem;
-        gap: 2rem;
-        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid rgba(255, 140, 0, 0.2);
+        justify-content: flex-start;
+        padding: 0;
+        gap: 0;
+        transition: all 0.4s ease-in-out;
+        border-left: none;
+        border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+        overflow: hidden;
+        z-index: 1000;
     }
 
     .nav-links.active {
-        right: 0;
+        max-height: 500px;
+        padding: 1.5rem 0;
     }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav-link:last-child { border-bottom: none; }
 
     .mobile-menu-btn {
         display: flex;
     }
-
-    .mobile-menu-btn.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
-    .mobile-menu-btn.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 }
 
 /* Admin Layout (CRITICAL FIX) */
@@ -1440,7 +1466,111 @@ form { padding: 1.5rem; }
 .footer-col a:hover { color: var(--primary); }
 .footer-bottom { text-align: center; padding-top: 1.5rem; margin-top: 2rem; border-top: 1px solid #222; color: #555; font-size: 0.8rem; }
 
-@media (max-width: 768px) { .admin-container { flex-direction: column; } .admin-sidebar { width: 100%; } .form-row { grid-template-columns: 1fr; } }
+/* ===== RESPONSIVE OPTIMIZATIONS (MOBILE FRIENDLY) ===== */
+
+@media (max-width: 1200px) {
+    .catalog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar { height: 70px; }
+    .nav-container { padding: 0 1.5rem; }
+    
+    .hero h1 { font-size: 3.5rem; }
+    
+    .admin-sidebar {
+        position: fixed;
+        left: -100%;
+        top: 85px;
+        bottom: 0;
+        z-index: 999;
+        transition: 0.3s ease;
+    }
+    
+    .admin-sidebar.active {
+        left: 0;
+    }
+
+    .admin-main {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container { padding: 0 1rem; }
+    
+    .page-title { font-size: 2rem; }
+    
+    .catalog-grid {
+        grid-template-columns: 1fr; /* Single column on phones */
+        gap: 1.5rem;
+    }
+
+    .catalog-item-header { height: 200px; }
+    .catalog-content { padding: 1.5rem; }
+
+    /* Responsive Table for Admin */
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 8px;
+    }
+
+    .admin-table th, .admin-table td {
+        white-space: nowrap; /* Prevent text wrapping in tables */
+        padding: 0.75rem;
+    }
+
+    .tab-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .tab-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .search-group input, .sort-group select {
+        width: 100% !important;
+    }
+
+    /* Modal Adjustments */
+    .modal-content {
+        max-height: 95vh;
+    }
+    
+    .modal-md-custom {
+        max-width: 95% !important;
+        margin: 0.5rem auto;
+    }
+
+    .floating-field label { font-size: 0.7rem; }
+    
+    /* Stat Cards */
+    .stat-card {
+        padding: 1.25rem;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2.5rem; }
+    .hero-buttons { flex-direction: column; width: 100%; }
+    .btn-lg { min-width: 100%; }
+    
+    .badge { padding: 0.3rem 0.6rem; font-size: 0.7rem; }
+}
 
 /* Weather Section */
 .weather-forecast {
